@@ -17,6 +17,7 @@ if(isset($_GET["id"])){
 ?>
 
 <?php 
+include("authentication.php");
 include("includes/header.php");
 include("includes/topbar.php");
 include("includes/sidebar.php");

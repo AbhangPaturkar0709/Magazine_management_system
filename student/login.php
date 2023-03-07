@@ -1,7 +1,21 @@
 <?php 
 session_start();
 include("includes/header.php");
-
+if(isset($_SESSION['auth']) && isset($_SESSION['auth_user']['user_role']))
+{
+    if($_SESSION['auth_user']['user_role'] == "STUDENT")
+    {
+        $_SESSION['status'] = "You are already logged In.";
+        header("Location: index.php");
+        exit(0);
+    }
+    if($_SESSION['auth_user']['user_role'] == "COORDINATOR")
+    {
+        $_SESSION['status'] = "You are already logged In.";
+        header("Location: ../coordinator/index.php");
+        exit(0);
+    }
+}
 ?>
 <div class="section">
     <div class="container">

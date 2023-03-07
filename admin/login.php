@@ -1,11 +1,14 @@
 <?php 
 session_start();
 include("includes/header.php");
-if(isset($_SESSION['auth']))
+if(isset($_SESSION['auth']) && isset($_SESSION['auth_user']['user_role']))
 {
-    $_SESSION['status'] = "You are already logged In.";
-    header("Location: index.php");
-    exit(0);
+    if($_SESSION['auth_user']['user_role'] == "ADMIN")
+    {
+        $_SESSION['status'] = "You are already logged In.";
+        header("Location: index.php");
+        exit(0);
+    }
 }
 ?>
 <div class="section">
