@@ -24,38 +24,33 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `file` varchar(50) NOT NULL,
   `uploaddate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` varchar(50) NOT NULL,
-  `comment` varchar(50) NOT NULL,
-  `stud_id` varchar(50) NOT NULL,
+  `comment` varchar(250) NOT NULL,
+  `stud_id` varchar(7) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_SID` (`stud_id`),
   CONSTRAINT `FK_SID` FOREIGN KEY (`stud_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.articles: ~22 rows (approximately)
+-- Dumping data for table magzinedb.articles: ~17 rows (approximately)
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `category`, `file`, `uploaddate`, `status`, `comment`, `stud_id`) VALUES
-	(1, 'jack art 1', 'Technical', '1st_page_0322023141947.pdf', '2023-03-02 19:44:52', 'Rejected', 'Article Rejected! ', '20CE012'),
-	(2, 'jack art 2', 'Non-Technical', '1st_page_0322023142005.pdf', '2023-03-02 18:50:05', 'pending', '', '20CE012'),
-	(3, 'Abhang art1', 'Technical', 'Pages_0322023142318.pdf', '2023-03-02 18:53:18', 'pending', '', '20IF001'),
-	(4, 'abhang art 2', 'Non-Technical', 'Pages_0322023142334.pdf', '2023-03-02 18:53:34', 'pending', '', '20IF001'),
-	(5, 'aradhana art 1', 'Technical', '6th_sem_course_reg_0322023142457.pdf', '2023-03-02 18:54:57', 'pending', '', '20IF019'),
-	(6, 'aradhana art 2', 'Non-Technical', '6th_sem_course_reg._fees_0322023142520.pdf', '2023-03-02 18:55:20', 'pending', '', '20IF019'),
-	(7, 'mohan art 1', 'Technical', 'post_edit_correction_0322023142546.pdf', '2023-03-02 18:55:46', 'pending', '', '19IF001'),
-	(8, 'mohan art 2', 'Non-Technical', '6th_sem_course_reg_0322023142600.pdf', '2023-03-02 18:56:00', 'pending', '', '19IF001'),
-	(13, 'ATHARAV ART 1', 'Technical', 'post_edit_correction_0322023165837.pdf', '2023-03-02 21:28:37', 'pending', '', '20ME005'),
-	(14, 'ATHARAV ART 1', 'Technical', 'post_edit_correction_0322023165842.pdf', '2023-03-02 21:28:42', 'pending', '', '20ME005'),
+	(1, 'JACK ART 1', 'Technical', 'Pages_0362023191354.pdf', '2023-03-06 23:43:54', 'pending', '', '20CE012'),
+	(2, 'jack art 2', 'Non-Technical', '1st_page_0322023142005.pdf', '2023-03-06 13:01:17', 'Apporved', 'Article Approved! ', '20CE012'),
+	(13, 'ATHARAV ART 1', 'Technical', 'post_edit_correction_0322023165837.pdf', '2023-03-06 13:43:11', 'Apporved', 'Article Approved! ', '20ME005'),
+	(14, 'ATHARAV ART 1', 'Technical', 'post_edit_correction_0322023165842.pdf', '2023-03-06 13:49:45', 'Apporved', 'Article Approved! ', '20ME005'),
 	(15, 'ATHARAV ART 1', 'Technical', 'post_edit_correction_0322023165853.pdf', '2023-03-03 12:08:21', 'Rejected', 'Article Rejected! ', '20ME005'),
-	(16, 'art 3', 'Technical', '6th_sem_course_reg_0322023165949.pdf', '2023-03-02 21:29:49', 'pending', '', '20IF019'),
-	(17, 'art 3', 'Technical', '6th_sem_course_reg_0322023165953.pdf', '2023-03-02 21:29:53', 'pending', '', '20IF019'),
-	(18, 'art 3', 'Technical', '6th_sem_course_reg_0322023170141.pdf', '2023-03-02 21:31:41', 'pending', '', '20IF019'),
-	(19, 'jacks art 555', 'Non-Technical', '6th_sem_course_reg_0322023170207.pdf', '2023-03-02 21:32:07', 'pending', '', '20CE012'),
-	(20, 'jacks art 555', 'Non-Technical', '6th_sem_course_reg_0322023170214.pdf', '2023-03-02 21:32:14', 'pending', '', '20CE012'),
+	(19, 'jacks art 555', 'Technical', 'Pages_0362023183559.pdf', '2023-03-06 23:05:59', 'pending', '', '20CE012'),
+	(20, 'jacks art 555', 'Non-Technical', 'Pages_0362023190908.pdf', '2023-03-06 23:39:08', 'pending', '', '20CE012'),
 	(21, 'jacks art 555', 'Non-Technical', '6th_sem_course_reg_0322023170242.pdf', '2023-03-02 21:32:42', 'pending', '', '20CE012'),
-	(22, 'Mohan article', 'Technical', '6th_sem_course_reg_0322023170343.pdf', '2023-03-02 21:33:43', 'pending', '', '19IF001'),
-	(23, 'Mohan article', 'Technical', '6th_sem_course_reg_0322023170402.pdf', '2023-03-02 21:34:02', 'pending', '', '19IF001'),
-	(24, 'Mohan article', 'Technical', '6th_sem_course_reg_0322023170454.pdf', '2023-03-02 21:34:56', 'pending', '', '19IF001'),
-	(25, 'art mohan', 'Non-Technical', '6th_sem_course_reg_0322023170519.pdf', '2023-03-02 21:35:19', 'pending', '', '19IF001'),
-	(26, 'art mohan', 'Non-Technical', '6th_sem_course_reg_0322023170527.pdf', '2023-03-02 21:35:27', 'pending', '', '19IF001');
+	(27, 'qwert art', 'Non-Technical', '1st_page_0342023231513.pdf', '2023-03-05 03:45:13', 'pending', '', '20CM001'),
+	(28, 'qwert art', 'Non-Technical', '1st_page_0342023231722.pdf', '2023-03-05 03:47:22', 'pending', '', '20CM001'),
+	(29, 'ABCDEF', 'TECHNICAL', 'ABC', '2023-03-06 14:42:43', 'pending', 'Modify Article. ', '19IF001'),
+	(30, 'ABCDEF', 'TECHNICAL', 'ABC', '2023-03-06 23:53:33', 'Modify', 'Modify Article. You Want To Make Changes On Page No 6', '19IF001'),
+	(31, 'ABC123', 'Non-Technical', 'Pages_0362023190438.pdf', '2023-03-06 23:35:05', 'Apporved', 'Article Approved! ', '19IF001'),
+	(32, 'aradhana art 1', 'Technical', 'Miss._Gauri_Anantrao_Gawande_Script_0362023191515.', '2023-03-06 23:45:15', 'pending', '', '20IF019'),
+	(33, 'aradhana art 2', 'Non-Technical', 'Miss._Gauri_Anantrao_Gawande_PPT_0362023191531.pdf', '2023-03-06 23:50:09', 'Modify', 'Modify Article. You Want To Make Changes On Page No 6', '20IF019'),
+	(34, 'sample', 'Technical', 'Miss._Gauri_Anantrao_Gawande_Script_0362023191806.', '2023-03-06 23:48:06', 'pending', '', '20IF019'),
+	(35, 'mohan 5', 'Technical', 'Miss._Gauri_Anantrao_Gawande_Script_0362023191925.', '2023-03-06 23:49:25', 'pending', '', '19IF001');
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
 -- Dumping structure for table magzinedb.department
@@ -80,7 +75,7 @@ INSERT INTO `department` (`id`, `d_name`) VALUES
 
 -- Dumping structure for table magzinedb.users
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` varchar(10) NOT NULL,
+  `id` varchar(7) NOT NULL,
   `firstname` varchar(20) NOT NULL,
   `middlename` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
@@ -94,15 +89,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FKDEPTNO` FOREIGN KEY (`deptno`) REFERENCES `department` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.users: ~6 rows (approximately)
+-- Dumping data for table magzinedb.users: ~12 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `firstname`, `middlename`, `lastname`, `deptno`, `role`, `email`, `password`, `mob`) VALUES
+	('', '', '', '', NULL, '', '', 'Abc@1234', 0),
 	('001', 'ADMIN', 'ADMIN', 'ADMIN', NULL, 'ADMIN', 'admin123@gmail.com', 'admin@123', 7894561230),
+	('002', 'UJWAL', 'PRAMOD', 'NIMBOKAR', 6, 'STAFF', 'ujwal111@gmail.com', 'ujwal@111', 7894561233),
 	('19IF001', 'MOHAN', 'SUNIL', 'GAWANDE', 6, 'COORDINATOR', 'mohan12@gmail.com', 'mohan@123', 7894561230),
+	('20CE005', 'ABHANG', 'KISHOR', 'PATURKAR', 1, 'STUDENT', 'abhangpaturkar0709@gmail.com', '789', 9158787125),
 	('20CE012', 'JACK', 'JAMES', 'SMITH', 1, 'STUDENT', 'jack123@gmail.com', 'jack@123', 8380969121),
 	('20CM001', 'RAM', 'SHAM', 'RAUT', 5, 'STUDENT', 'ram123@gmail.com', 'ram@123', 7788994455),
+	('20CM014', 'PRATIK', 'VINAYAKRAO', 'GHURDE', 5, 'STUDENT', 'pratikghurde123@gmail.com', 'Pratik@1', 9730161120),
+	('20CM051', 'ABHANG', 'KISHOR', 'PATURKAR', 5, 'STUDENT', 'abhangpaturkar0709@gmail.com', 'ABHYA@123', 8308969121),
 	('20IF001', 'ABHANG', 'KISHOR', 'PATURKAR', 6, 'STUDENT', 'abhang123@gmail.com', 'abhang@123', 7894561230),
 	('20IF019', 'ARADHANA', 'SHRIKRUSHNA', 'HINGANE', 6, 'STUDENT', 'aradhana123@gmail.com', 'aradhana@1', 7894561230),
+	('20ME001', 'Abhang', 'Kishor', 'Paturkar', 2, 'STUDENT', 'abhangpaturkar0709@gmail.com', '789', 9158787125),
 	('20ME005', 'ATHARAV', 'SURESH', 'MANKAR', 2, 'COORDINATOR', 'atharav123@gmail.com', 'atharav@12', 7894561230);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
