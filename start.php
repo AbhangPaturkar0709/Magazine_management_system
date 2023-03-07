@@ -19,24 +19,24 @@
   <body>
     <?php
       session_start();
-  include("inc/top_navbar.php");
-  if(isset($_SESSION['auth']))
-  {
-      $_SESSION['role_as'] = "";
-      
-      if($_SESSION['role_as'] == "STUDENT")
+      include("inc/top_navbar.php");
+      if(isset($_SESSION['auth']))
       {
-          $_SESSION['status'] = "Please Logout to access Home page.";
-          header("Location: student/index.php");
-          exit(0);
+          $_SESSION['role_as'] = "";
+          
+          if($_SESSION['role_as'] == "STUDENT")
+          {
+              $_SESSION['status'] = "Please Logout to access Home page.";
+              header("Location: student/index.php");
+              exit(0);
+          }
+          elseif($_SESSION['role_as'] == "COORDINATOR")
+          {
+              $_SESSION['status'] = "Please Logout to access Home page.";
+              header("Location: coordinator/index.php");
+              exit(0);
+          }
       }
-      elseif($_SESSION['role_as'] == "COORDINATOR")
-      {
-          $_SESSION['status'] = "Please Logout to access Home page.";
-          header("Location: coordinator/index.php");
-          exit(0);
-      }
-  }
   ?>
   </body>
 </html>
