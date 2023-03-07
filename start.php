@@ -22,20 +22,21 @@
       include("inc/top_navbar.php");
       if(isset($_SESSION['auth']))
       {
-          $_SESSION['role_as'] = "";
+        $_SESSION['role_as'] = "";
           
-          if($_SESSION['role_as'] == "STUDENT")
-          {
-              $_SESSION['status'] = "Please Logout to access Home page.";
-              header("Location: student/index.php");
-              exit(0);
-          }
-          elseif($_SESSION['role_as'] == "COORDINATOR")
-          {
-              $_SESSION['status'] = "Please Logout to access Home page.";
-              header("Location: coordinator/index.php");
-              exit(0);
-          }
+        if($_SESSION['role_as'] == "STUDENT")
+        {
+            $_SESSION['status'] = "Please Logout to access Home page.";
+            header("Location: student/index.php");
+           exit(0);
+        }
+          
+        elseif($_SESSION['role_as'] == "COORDINATOR")
+        {
+            $_SESSION['status'] = "Please Logout to access Home page.";
+            header("Location: coordinator/index.php");
+            exit(0);
+        }
       }
   ?>
   </body>
