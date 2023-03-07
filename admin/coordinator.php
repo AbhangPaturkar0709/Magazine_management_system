@@ -1,0 +1,145 @@
+<?php 
+include("includes/header.php");
+include("authentication.php");
+include("includes/topbar.php");
+include("includes/sidebar.php");
+?>
+
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+  <!-- Modal -->
+  <div class="modal fade" id="AddArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Article</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action ="#" method ="post" enctype = "multipart/form-data">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for ="sid">ID Code</label>
+                <input name = "sid" type="text" class="form-control" placeholder ="ID Code" required>
+              </div>
+              <div class="form-group">
+                <label for ="art_title">Title</label>
+                <input name = "art_title" type="text" class="form-control" placeholder ="Article Title" required>
+              </div>
+              <div class="form-group">
+                <label for ="ddl_category">Select Category</label>
+                <select name="category" class="form-control">
+                  <option value="-1">Select Category</option>
+                  <option>Technical</option>
+                  <option>Non-Technical</option>
+                  </select>
+                </div>
+              <div class="form-group">
+                <label for ="file">Upload File</label>
+                <input name = "file" type="file" class="form-control" accept=".pdf">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="save_article">ADD</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">Co-ordinator</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+      </div><!-- /.content-header -->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Registered Coordinator</h3>
+                <a href="#" data-toggle="modal" data-target="#AddArticleModal" class = "btn btn-primary float-right">Add Coordinator</a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>ID Code</th>
+                      <th>Full Name</th>
+                      <th>Department</th>
+                      <th>Semister</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      $i = 1;
+                      include("../inc/connection.php");
+                      $query = "Select *from articles";
+                      $result = mysqli_query($connect, $query);
+                      if(mysqli_num_rows($result) > 0)
+                      {
+                      while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                    <tr>
+                      <td class="text-center"><?php echo $i++; ?></td>
+                      <td class=""><?php echo $row['stud_id'] ?></td>
+                      <td class="truncate-1"><?php echo ucwords($row['title']) ?></td>
+                      <td><?php echo ucwords($row['category']) ?></td>
+                      <td class="text-center"><?php echo $row['uploaddate'] ?></td>
+                      <td align="center">
+                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
+                          <span class="sr-only">Toggle Dropdown</span></button>
+                            <div class="dropdown-menu" role="menu">
+                              <a class="dropdown-item view_data" href="view_magzine.php?id=<?php echo $row['id']; ?>" data-id ="<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
+                              <div class="dropdown-divider"></div>
+                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                            </div>
+                      </td>
+						        </tr>
+                    <?php 
+                          }
+                        }
+                        else
+                        {
+                            ?>
+                              <tr>
+                                <td style="background:white">No Article Found.</td>
+                              </tr>
+                            <?php
+                        }
+                    ?>
+                  </tbody>
+                </table>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+<?php
+include("includes/script.php");
+include("includes/footer.php");
+?>
+
