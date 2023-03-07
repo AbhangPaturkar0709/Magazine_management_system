@@ -8,11 +8,11 @@ include("includes/sidebar.php");
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <?php 
-		$user_email = $_SESSION['auth_user']['user_email'];
-		include("inc/connection.php");
-		$query = "select *from users where email = '$user_email'";
-		$result = mysqli_query($connect, $query);
-    $row = mysqli_fetch_assoc($result);
+      $user_email = $_SESSION['auth_user']['user_email'];
+      include("inc/connection.php");
+      $query = "select *from users where email = '$user_email'";
+      $result = mysqli_query($connect, $query);
+      $row = mysqli_fetch_assoc($result);
 		?>
     <!-- Modal -->
     <div class="modal fade" id="AddArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,16 +82,16 @@ include("includes/sidebar.php");
             }
             else
             {
-                include("../inc/connection.php");
+              include("../inc/connection.php");
                 
-                move_uploaded_file($doc_tem_loc, $doc_store);
+              move_uploaded_file($doc_tem_loc, $doc_store);
 
-                $sql = "insert into articles(`title`, `category`, `file`, `uploaddate`, `status`, `stud_id`) values('$article_title', '$article_category', '$doc_unique_name', now(), 'pending', '$sid')";
+              $sql = "insert into articles(`title`, `category`, `file`, `uploaddate`, `status`, `stud_id`) values('$article_title', '$article_category', '$doc_unique_name', now(), 'pending', '$sid')";
 
-                if(mysqli_query($connect, $sql))
-                {
-                    $_SESSION['status'] = "Article uploaded successfully...";
-                }
+              if(mysqli_query($connect, $sql))
+              {
+                $_SESSION['status'] = "Article uploaded successfully...";
+              }
             }
         }
     ?>
@@ -148,7 +148,7 @@ include("includes/sidebar.php");
                       $result = mysqli_query($connect, $query);
                       if(mysqli_num_rows($result) > 0)
                       {
-                      while($row = mysqli_fetch_assoc($result)){
+                        while($row = mysqli_fetch_assoc($result)){
                     ?>
                     <tr>
                       <td class="text-center"><?php echo $i++; ?></td>
@@ -158,23 +158,23 @@ include("includes/sidebar.php");
                       <td class="text"><?php echo date("M d, Y h:i A",strtotime($row['uploaddate'])) ?></td>
                       <td class="text-center">
                         <?php $status = strtoupper($row['status']);
-                       if($status === "PENDING")
-                       {
-                        echo "<i class='text-secondary'>".ucwords($status)."</i>";
-                       } 
-                       elseif($status === "APPORVED")
-                       {
-                        echo "<b class='text-success'>".ucwords($status)."</b>";
-                       } 
-                       elseif($status === "REJECTED")
-                       {
-                        echo "<b class='text-danger'>".ucwords($status)."</b>";
-                       } 
-                       elseif($status === "MODIFY")
-                       {
-                        echo "<b class='text-warning'>".ucwords($status)."</b>";
-                       } 
-                       ?>
+                              if($status === "PENDING")
+                              {
+                                echo "<i class='text-secondary'>".ucwords($status)."</i>";
+                              } 
+                              elseif($status === "APPORVED")
+                              {
+                                echo "<b class='text-success'>".ucwords($status)."</b>";
+                              } 
+                              elseif($status === "REJECTED")
+                              {
+                                echo "<b class='text-danger'>".ucwords($status)."</b>";
+                              } 
+                              elseif($status === "MODIFY")
+                              {
+                                echo "<b class='text-warning'>".ucwords($status)."</b>";
+                              } 
+                          ?>
                        </td>
                       <td class="text"><?php echo ucwords($row['comment']) ?></td>
                       <td align="center">
