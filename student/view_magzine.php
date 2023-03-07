@@ -185,12 +185,6 @@ include("includes/sidebar.php");
                           </div>
                           <?php }?>
                         </div>
-                        
-                        <div class="col-auto">
-                            <div class="d-flex align-items-center">
-                              
-                             </div>
-                          </div>
                 </div>
             </div>
         </div>
