@@ -107,39 +107,40 @@ include("includes/sidebar.php");
                         </div>
                         <br>
                         <div class="row justify-content-between align-items-top">
-                          <div class="col">
-                            <form action = "code.php" method = "post">
-                            <input type="text" name = "txt_comment" class="form-control" placeholder="Write Comments here ...">
-                          </div>
-                          <div class="col-auto">
                           <?php $status = strtoupper($row['status']);
                             if($status === "PENDING")
                             {?>
+                              <div class="col">
+                                  <form action = "code.php" method = "post">
+                                    <input type="text" name = "txt_comment" class="form-control" placeholder="Write Comments here ...">
+                                </div>
+                              <div class="col-auto">
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_approve" class="btn bg-gradient-success">Approve</button>
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_modify" class="btn bg-gradient-warning">Modify</button>
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_reject" class="btn bg-gradient-danger">Reject</button>
-                            <?php
-                            }
-                            elseif($status === "APPORVED")
-                            {?>
-                                <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_modify" class="btn bg-gradient-warning">Modify</button>
-                                <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_reject" class="btn bg-gradient-danger">Reject</button>
-                            <?php
-                            }
-                            elseif($status === "REJECTED")
-                            {?>     
-                                <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_approve" class="btn bg-gradient-success">Approve</button>
-                                <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_modify" class="btn bg-gradient-warning">Modify</button>
+                                </form>
+                              </div>
                             <?php
                             }
                             elseif($status === "MODIFY")
-                            {?>
+                            {
+                              ?>
+                                <div class="col">
+                                  <form action = "code.php" method = "post">
+                                    <input type="text" name = "txt_comment" class="form-control" placeholder="Write Comments here ...">
+                                </div>
+                              <div class="col-auto">
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_approve" class="btn bg-gradient-success">Approve</button>
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_reject" class="btn bg-gradient-danger">Reject</button>
+                                </form>
+                              </div>
                                 <?php
-                            }?>
-                            </form>
-                          </div>
+                            }
+                            else
+                            {
+                            }
+                            ?>
+                            
                         </div>
                         <br>
                         <div class="col-auto">
