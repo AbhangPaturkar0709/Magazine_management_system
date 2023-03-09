@@ -22,7 +22,24 @@ include("includes/header.php");
 include("includes/topbar.php");
 include("includes/sidebar.php");
 ?>
-
+<style>
+    #magazine-cover-view{
+        object-fit:scale-down;
+        object-position:center center;
+        height:30vh;
+        width:20vw;
+    }
+    #author-avatar{
+        height:35px;
+        width:35px;
+        object-fit: cover;
+        object-position:center center;
+        border-radius:50% 50%
+    }
+    #PDF-holder{
+        height:80vh;
+    }
+</style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
  <?php 

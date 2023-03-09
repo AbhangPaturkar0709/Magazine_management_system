@@ -21,7 +21,24 @@ include("includes/header.php");
 include("includes/topbar.php");
 include("includes/sidebar.php");
 ?>
-
+<style>
+    #magazine-cover-view{
+        object-fit:scale-down;
+        object-position:center center;
+        height:30vh;
+        width:20vw;
+    }
+    #author-avatar{
+        height:35px;
+        width:35px;
+        object-fit: cover;
+        object-position:center center;
+        border-radius:50% 50%
+    }
+    #PDF-holder{
+        height:80vh;
+    }
+</style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -50,7 +67,7 @@ include("includes/sidebar.php");
                 <h5 class="card-title">Article Details</h5>
               </div>
               <div class="card-body">
-                <div class="container-fluid">
+                <div class="container">
                     <div class="row justify-content-center align-items-end">
                         <div class="col-md-8">
                             <div class="row justify-content-between align-items-top">
@@ -100,7 +117,6 @@ include("includes/sidebar.php");
                       <hr>
                       <div class="row">
                           <h4 class="text-purple"><b>PDF File</b></h4>
-                          <hr>
                           <div class="w-100" id="PDF-holder">
                           <iframe src="../Documents/<?php echo $pdf; ?>" frameborder="1" class="w-100 h-100 bg-dark"></iframe>
                           </div>
