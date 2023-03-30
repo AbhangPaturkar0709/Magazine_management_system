@@ -1,0 +1,163 @@
+<?php 
+include("includes/header.php");
+include("authentication.php");
+include("includes/topbar.php");
+include("includes/sidebar.php");
+?>
+
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">Co-ordinator</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+      </div><!-- /.content-header -->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Registered Co-ordinator</h3>
+                <a href="Register_coordinator.php" class = "btn btn-primary float-right">Register Co-ordinator</a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>ID Code</th>
+                      <th>Full Name</th>
+                      <th>Department</th>
+                      <th>Year</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      $i = 1;
+                      include("config/connection.php");
+                      $query = "Select u.id, u.firstname, u.middlename, u.lastname, d.d_name, u.year from users as u inner join department as d on u.deptno = d.id where u.role = 'COORDINATOR'";
+                      $result = mysqli_query($connect, $query);
+                      if(mysqli_num_rows($result) > 0)
+                      {
+                      while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                    <tr>
+                      <td class="text-center"><?php echo $i++; ?></td>
+                      <td class="text"><?php echo $row['id'] ?></td>
+                      <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
+                      <td class="text"><?php echo ucwords($row['d_name']) ?></td>
+                      <td class="text"><?php echo $row['year']." Year" ?></td>
+                      <td align="center">
+                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
+                          <span class="sr-only">Toggle Dropdown</span></button>
+                            <div class="dropdown-menu" role="menu">
+                              <a class="dropdown-item view_data" href="#" data-id ="#"><span class="fa fa-eye text-dark"></span> View</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
+                              <div class="dropdown-divider"></div>
+                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                            </div>
+                      </td>
+						        </tr>
+                    <?php 
+                          }
+                        }
+                        else
+                        {
+                            ?>
+                              <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                                <strong>Hey..!</strong> No Data Found...
+                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                    </button>
+                                </div>
+                            <?php
+                        }
+                    ?>
+                  </tbody>
+                </table>
+                <?php }elseif($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
+                  <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>ID Code</th>
+                      <th>Full Name</th>
+                      <th>Year</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      $i = 1;
+                      include("config/connection.php");
+                      $dept = $_SESSION['auth_admin']['admin_dept'];
+                      $query = "Select u.id, u.firstname, u.middlename, u.lastname, u.year from users as u inner join department as d on u.deptno = d.id where u.role = 'COORDINATOR' && d.d_name='$dept'";
+                      $result = mysqli_query($connect, $query);
+                      if(mysqli_num_rows($result) > 0)
+                      {
+                      while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                    <tr>
+                      <td class="text-center"><?php echo $i++; ?></td>
+                      <td class="text"><?php echo $row['id'] ?></td>
+                      <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
+                      <td class="text"><?php echo $row['year']." Year" ?></td>
+                      <td align="center">
+                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
+                          <span class="sr-only">Toggle Dropdown</span></button>
+                            <div class="dropdown-menu" role="menu">
+                              <a class="dropdown-item view_data" href="#" data-id ="#"><span class="fa fa-eye text-dark"></span> View</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
+                              <div class="dropdown-divider"></div>
+                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                            </div>
+                      </td>
+						        </tr>
+                    <?php 
+                          }
+                        }
+                        else
+                        {
+                            ?>
+                              <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                                <strong>Hey..!</strong> No Data Found...
+                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                    </button>
+                                </div>
+                            <?php
+                        }
+                    ?>
+                  </tbody>
+                </table>
+                <?php } ?>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+<?php
+include("includes/script.php");
+include("includes/footer.php");
+?>
+
