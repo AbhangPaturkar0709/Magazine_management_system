@@ -55,7 +55,7 @@ include("includes/sidebar.php");
                       $i = 1;
                       include("config/connection.php");
                       $stud_dept = $_SESSION['auth_user']['user_dept'];
-                      $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = 'INFORMATION TECHNOLOGY'";
+                      $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = '$stud_dept'";
                       // $query = "Select *from articles where stud_ = '$stud_dept'";
                       $result = mysqli_query($connect, $query);
                       if(mysqli_num_rows($result) > 0)
