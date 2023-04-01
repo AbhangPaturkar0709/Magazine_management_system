@@ -24,7 +24,7 @@
 
           
           <li class="nav-item">
-            <a href="magzine.php" class="nav-link <?= $page == 'student_articles.php' || $page == 'staff_articles.php' || $page == 'view_article.php'? 'active':'' ?>">
+            <a href="#" class="nav-link <?= $page == 'student_articles.php' || $page == 'staff_articles.php' || $page == 'view_article.php'? 'active':'' ?>">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Articles
@@ -65,7 +65,7 @@
             <?php }?>
 
           <li class="nav-item">
-            <a href="#" class="nav-link <?= $page == 'student.php' || $page == 'staff.php' || $page == 'coordinator.php' || $page == 'Register_coordinator.php' ? 'active':'' ?>">
+            <a href="#" class="nav-link <?= $page == 'student.php' || $page == 'staff.php' || $page == 'coordinator.php' || $page == 'Register_coordinator.php' || $page == 'userprofile.php' ? 'active':'' ?>">
             <i class="fas fa-circle nav-icon"></i>
               <p>
                 Users
@@ -94,6 +94,14 @@
                 </a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="magazine.php" class="nav-link <?= $page == 'magazine.php' || $page == 'view_magazine.php' ? 'active':'' ?>">
+            <i class="nav-icon fas fa-book"></i>
+              <p>
+                Magazine
+              </p>
+            </a>
           </li>
         </ul>
       </nav>

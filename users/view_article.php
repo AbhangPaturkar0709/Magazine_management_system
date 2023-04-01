@@ -13,7 +13,6 @@ if(isset($_GET["id"])){
     $uploaddate = $row['uploaddate'];
     $status = strtoupper($row['status']);
     $comment = $row['comment'];
-    mysqli_close($connect);
 }
 
 include("includes/header.php");
@@ -46,7 +45,6 @@ include("includes/sidebar.php");
 		$query = "select *from users where email = '$user_email'";
 		$result = mysqli_query($connect, $query);
     $row = mysqli_fetch_assoc($result);
-    mysqli_close($connect);
 		?>
     <!-- Modal -->
     <div class="modal fade" id="AddArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

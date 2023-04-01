@@ -1,23 +1,25 @@
 <?php
+$id ="";
+
+  if(isset($_GET["id"])){
+      $id = $_GET['id'];
+      include("config/connection.php");
+      $query = "select * from articles where id = $id";
+      $result = mysqli_query($connect, $query);
+      $row = mysqli_fetch_assoc($result);
+      $pdf = $row['file'];
+      $title = strtoupper($row['title']);
+      $category = strtoupper($row['category']);
+      $stud_id = $row['stud_id'];
+      $uploaddate = $row['uploaddate'];
+      $status = strtoupper($row['status']);
+      $comment = $row['comment'];
+      mysqli_close($connect);
+  }
 include("authentication.php");
 include("includes/header.php");
 include("includes/topbar.php");
 include("includes/sidebar.php");
-if(isset($_GET["id"])){
-    $id = $_GET['id'];
-    include("config/connection.php");
-    $query = "select * from articles where id = $id";
-    $result = mysqli_query($connect, $query);
-    $row = mysqli_fetch_assoc($result);
-    $pdf = $row['file'];
-    $title = strtoupper($row['title']);
-    $category = strtoupper($row['category']);
-    $stud_id = $row['stud_id'];
-    $uploaddate = $row['uploaddate'];
-    $status = $row['status'];
-    $comment = $row['comment'];
-    mysqli_close($connect);
-}
 ?>
 
 <style>

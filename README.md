@@ -9,4 +9,4 @@ For Student / Co-ordinator Login :
 http://localhost/magazine_management/student/login.php
 
 For Home page (magazine management system) :
-http://localhost/magazine_management/start.php
+http://localhost/magazine_management/index.php

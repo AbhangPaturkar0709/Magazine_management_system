@@ -141,7 +141,7 @@ include("includes/sidebar.php");
                       if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
                       {
                         $user_role=$_SESSION['auth_admin']['admin_role'];
-                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.stud_id from articles as art join users as usr on art.stud_id = usr.id where usr.role='STUDENT'";
+                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.stud_id from articles as art join users as usr on art.stud_id = usr.id where usr.role in ('STUDENT', 'COORDINATOR')";
                       }
                       elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
                       {

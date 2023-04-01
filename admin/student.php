@@ -240,7 +240,7 @@ include("includes/sidebar.php");
           </div>
           <form action="" method= "POST">
           <div class="modal-body">
-            <input type="text" name="id" id="stud_id">
+            <input type="hidden" name="id" id="stud_id">
             Are your sure to Delete Student? 
             </div>
             <div class="modal-footer">
