@@ -98,6 +98,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {

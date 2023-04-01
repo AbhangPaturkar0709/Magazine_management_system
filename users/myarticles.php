@@ -13,6 +13,7 @@ include("includes/sidebar.php");
       $query = "select *from users where email = '$user_email'";
       $result = mysqli_query($connect, $query);
       $row = mysqli_fetch_assoc($result);
+      mysqli_close($connect);
 		?>
     <!-- Modal -->
     <div class="modal fade" id="AddArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -91,6 +92,7 @@ include("includes/sidebar.php");
           {
             $_SESSION['status'] = "Article uploaded successfully...";
           }
+          mysqli_close($connect);
         }
     }
     ?>
@@ -126,6 +128,7 @@ include("includes/sidebar.php");
         include("config/connection.php");
         $query = "delete from articles where id = $id";
         mysqli_query($connect, $query);
+        mysqli_close($connect);
     }
     ?>
     
@@ -220,6 +223,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {

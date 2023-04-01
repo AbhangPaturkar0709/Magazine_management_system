@@ -33,6 +33,8 @@
                     $_SESSION['status'] = "Article uploaded successfully...";
                     header("Location: view_article.php?id=$id&page=myart");
                 }
+         
             }
         }
+        mysqli_close($connect);
     ?>

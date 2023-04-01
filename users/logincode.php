@@ -6,7 +6,6 @@
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        
         include("config/connection.php");
         $query = "select users.id, users.firstname, users.middlename, users.lastname, department.d_name, users.role, users.email, users.mob FROM users INNER JOIN department ON users.deptno=department.id WHERE email = '$email' AND PASSWORD='$password'";
         
@@ -25,7 +24,7 @@
                 $user_email = $row['email'];
                 $user_mob = $row['mob'];
             }
-
+            mysqli_close($connect);
             $_SESSION['users_auth'] = true;
             $_SESSION['auth_user'] = [
                 'user_id' => $user_id,
