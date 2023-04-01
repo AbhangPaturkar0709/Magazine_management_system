@@ -9,6 +9,7 @@ $idcode = $_GET['id'];
 $query = "select u.id, u.firstname, u.middlename, u.lastname, u.email, u.mob, u.year, d.d_name FROM users AS u INNER JOIN department AS d ON u.deptno = d.id WHERE u.id = '$idcode'";
 $result = mysqli_query($connect, $query);
 $row = mysqli_fetch_assoc($result);
+mysqli_close($connect);
 
 ?>
 

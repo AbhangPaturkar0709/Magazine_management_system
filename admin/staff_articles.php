@@ -88,6 +88,7 @@ include("includes/sidebar.php");
                     $_SESSION['status'] = "Article uploaded successfully...";
                   }
                 }
+                mysqli_close($connect);
             }
         }
     ?>
@@ -162,6 +163,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {
@@ -219,6 +221,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {

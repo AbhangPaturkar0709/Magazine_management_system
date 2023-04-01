@@ -24,7 +24,7 @@
                 $admin_email = $row['email'];
                 $admin_mob = $row['mob'];
             }
-
+            mysqli_close($connect);
             $_SESSION['admin_auth'] = true;
             $_SESSION['auth_admin'] = [
                 'admin_id' => $admin_id,
@@ -37,8 +37,9 @@
                 'admin_mob' => $admin_mob
             ];
             $_SESSION['status'] = "Logged In Successfully";
-
+            
             header("Location: index.php");
+
         }
         else
         {
@@ -58,7 +59,7 @@
                     $admin_email = $row['email'];
                     $admin_mob = $row['mob'];
                 }
-
+                mysqli_close($connect);
                 $_SESSION['admin_auth'] = true;
                 $_SESSION['auth_admin'] = [
                     'admin_id' => $admin_id,

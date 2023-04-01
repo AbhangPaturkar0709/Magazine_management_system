@@ -32,5 +32,6 @@ if(isset($_POST['art_reject']))
     }
 
 }
+mysqli_close($connect);
 
 ?>

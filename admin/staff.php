@@ -144,6 +144,7 @@ include("includes/sidebar.php");
             {
                 $_SESSION['status'] = "Already registered with STAFF-ID : $staffid";
             }
+            mysqli_close($connect);
           }
           if($_POST['pass'] === $_POST['cpass'])
           {
@@ -177,6 +178,7 @@ include("includes/sidebar.php");
             {
               $_SESSION['status'] = "Invalid STAFF-ID...";
             }
+            mysqli_close($connect);
           }
           else
           {
@@ -216,6 +218,7 @@ include("includes/sidebar.php");
         include("config/connection.php");
         $query = "delete from users where id = '$id'";
         mysqli_query($connect, $query);
+        mysqli_close($connect);
     }
     ?>
 
@@ -287,6 +290,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {

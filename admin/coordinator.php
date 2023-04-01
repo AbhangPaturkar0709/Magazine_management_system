@@ -38,6 +38,7 @@ include("includes/sidebar.php");
         include("config/connection.php");
         $query = "update users set role = 'STUDENT' where id = '$idcode'";
         mysqli_query($connect, $query);
+        mysqli_close($connect);
     }
     ?>
     
@@ -101,6 +102,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);  
                         }
                         else
                         {
@@ -147,6 +149,7 @@ include("includes/sidebar.php");
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {

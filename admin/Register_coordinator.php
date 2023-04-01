@@ -38,6 +38,7 @@ include("includes/sidebar.php");
         include("config/connection.php");
         $query = "update users set role = 'COORDINATOR' where id = '$idcode'";
         mysqli_query($connect, $query);
+        mysqli_close($connect);
         unset($_POST['DEPT']); 
         unset($_POST['SEMESTER']);
     }
@@ -88,6 +89,7 @@ include("includes/sidebar.php");
                                           echo $row['d_name'];
                                           echo "</option>";
                                       }
+                                      mysqli_close($connect);
                                       ?>
                                   </select>
                               </div>
@@ -168,6 +170,7 @@ include("includes/sidebar.php");
                         <td class='text'>". ucwords($row['d_name']) ."</td>
                         <td align='center'><button type='button' value='". $row['id']." ' class='btn btn-info btn-sm ChangeRole'>Enroll</button></td></tr>";
                       }
+                      mysqli_close($connect);
                     }
                     else
                     {
@@ -213,6 +216,7 @@ include("includes/sidebar.php");
                         <td class='text'>". ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ."</td>
                         <td align='center'><button type='button' value='". $row['id']." ' class='btn btn-info btn-sm ChangeRole'>Register</button></td></tr>";
                       }
+                      mysqli_close($connect);
                     }
                     else
                     {

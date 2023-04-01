@@ -16,6 +16,7 @@ if(isset($_GET["id"])){
     $uploaddate = $row['uploaddate'];
     $status = $row['status'];
     $comment = $row['comment'];
+    mysqli_close($connect);
 }
 ?>
 

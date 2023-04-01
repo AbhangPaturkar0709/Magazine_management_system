@@ -145,6 +145,7 @@ include("includes/sidebar.php");
             {
                 $_SESSION['status'] = "Already registered with ID-CODE : $idcode";
             }
+            mysqli_close($connect);
           }
           if($_POST['pass'] === $_POST['cpass'])
           {
@@ -212,6 +213,7 @@ include("includes/sidebar.php");
                   }
                 }
               }
+              mysqli_close($connect);
             }
             else
             {
@@ -257,6 +259,7 @@ include("includes/sidebar.php");
         include("config/connection.php");
         $query = "delete from users where id = '$id'";
         mysqli_query($connect, $query);
+        mysqli_close($connect);
     }
     ?>
 
@@ -323,14 +326,13 @@ include("includes/sidebar.php");
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id'] ?>&page=studprof" data-id ="<?php echo $row['id'] ?>&page=studprof"><span class="fa fa-eye text-dark"></span> View</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
                               <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
                             </div>
                       </td>
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {
@@ -379,14 +381,13 @@ include("includes/sidebar.php");
                             <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id'] ?>&page=studprof" data-id ="<?php echo $row['id'] ?>&page=studprof"><span class="fa fa-eye text-dark"></span> View</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
                               <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
                             </div>
                       </td>
 						        </tr>
                     <?php 
                           }
+                          mysqli_close($connect);
                         }
                         else
                         {
