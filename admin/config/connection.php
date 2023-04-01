@@ -1,3 +1,3 @@
 <?php
-    $connect = mysqli_connect("localhost", "root", "", "magzinedb");
+    $connect = mysqli_connect("localhost", "root", "", "magazinedb");
 ?>
