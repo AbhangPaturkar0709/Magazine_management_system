@@ -7,6 +7,40 @@ include("includes/sidebar.php");
 
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
+  <!-- Modal -->
+  <div class="modal fade" id="RemoveConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <input type="hidden" name="stud_id" id="user_id">
+            Are your sure to Remove from Coordinator ? 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="RemoveRole">YES</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <?php
+    if(isset($_POST['RemoveRole']))
+    {
+        $idcode = $_POST['stud_id'];
+        include("config/connection.php");
+        $query = "update users set role = 'STUDENT' where id = '$idcode'";
+        mysqli_query($connect, $query);
+    }
+    ?>
+    
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -31,7 +65,7 @@ include("includes/sidebar.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Registered Co-ordinator</h3>
-                <a href="Register_coordinator.php" class = "btn btn-primary float-right">Register Co-ordinator</a>
+                <a href="Register_coordinator.php" class = "btn btn-primary float-right">Enroll Co-ordinator</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -63,17 +97,7 @@ include("includes/sidebar.php");
                       <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
                       <td class="text"><?php echo ucwords($row['d_name']) ?></td>
                       <td class="text"><?php echo $row['year']." Year" ?></td>
-                      <td align="center">
-                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
-                          <span class="sr-only">Toggle Dropdown</span></button>
-                            <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item view_data" href="#" data-id ="#"><span class="fa fa-eye text-dark"></span> View</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
-                            </div>
-                      </td>
+                      <td align="center"><button type="button" value="<?php echo $row['id'] ?>" class="btn btn-danger btn-sm RemoveRole">Remove</button></td>
 						        </tr>
                     <?php 
                           }
@@ -119,17 +143,7 @@ include("includes/sidebar.php");
                       <td class="text"><?php echo $row['id'] ?></td>
                       <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
                       <td class="text"><?php echo $row['year']." Year" ?></td>
-                      <td align="center">
-                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
-                          <span class="sr-only">Toggle Dropdown</span></button>
-                            <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item view_data" href="#" data-id ="#"><span class="fa fa-eye text-dark"></span> View</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
-                            </div>
-                      </td>
+                      <td align="center"><button type="button" value="<?php echo $row['id'] ?>" class="btn btn-danger btn-sm RemoveRole">Remove</button></td>
 						        </tr>
                     <?php 
                           }
@@ -158,6 +172,20 @@ include("includes/sidebar.php");
       
 <?php
 include("includes/script.php");
+?>
+<script>
+  $(document).ready(function (){
+    $('.RemoveRole').click(function (e) {
+      e.preventDefault();
+      var usr_id = $(this).val();
+
+      $('#user_id').val(usr_id);
+      $('#RemoveConfirmation').modal('show');
+      
+    });
+  });
+</script>
+<?php
 include("includes/footer.php");
 ?>
 

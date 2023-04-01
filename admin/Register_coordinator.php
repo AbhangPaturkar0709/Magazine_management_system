@@ -20,7 +20,7 @@ include("includes/sidebar.php");
           <form action="" method= "POST">
           <div class="modal-body">
             <input type="hidden" name="stud_id" id="user_id">
-            Are your sure to change role as Coordinator ? 
+            Are your sure to Enroll as Coordinator ? 
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary" name="change_role">YES</button>
@@ -78,7 +78,7 @@ include("includes/sidebar.php");
                                   <option value="-1">Select Department</option>
                                       <?php 
                                       include("config/connection.php");
-                                      $query = "select * from department";
+                                      $query = "select * from department where id > 0";
                                       $result = mysqli_query($connect, $query);
                                       while($row = mysqli_fetch_assoc($result))
                                       {
@@ -117,6 +117,9 @@ include("includes/sidebar.php");
                       <th>Sr. No.</th>
                       <th>ID Code</th> 
                       <th>Full Name</th>
+                      <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
+                        <th>Department</th>
+                        <?php }?>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -163,7 +166,7 @@ include("includes/sidebar.php");
                         <td class='text'>". $row['id'] ."</td>
                         <td class='text'>". ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ."</td>
                         <td class='text'>". ucwords($row['d_name']) ."</td>
-                        <td align='center'><button type='button' value='". $row['id']." ' class='btn btn-info btn-sm ChangeRole'>Register</button></td></tr>";
+                        <td align='center'><button type='button' value='". $row['id']." ' class='btn btn-info btn-sm ChangeRole'>Enroll</button></td></tr>";
                       }
                     }
                     else

@@ -1,7 +1,11 @@
 <?php
+include("authentication.php");
+include("includes/header.php");
+include("includes/topbar.php");
+include("includes/sidebar.php");
 if(isset($_GET["id"])){
     $id = $_GET['id'];
-    include("../inc/connection.php");
+    include("config/connection.php");
     $query = "select * from articles where id = $id";
     $result = mysqli_query($connect, $query);
     $row = mysqli_fetch_assoc($result);
@@ -15,12 +19,6 @@ if(isset($_GET["id"])){
 }
 ?>
 
-<?php 
-include("authentication.php");
-include("includes/header.php");
-include("includes/topbar.php");
-include("includes/sidebar.php");
-?>
 <style>
     #magazine-cover-view{
         object-fit:scale-down;
@@ -129,7 +127,7 @@ include("includes/sidebar.php");
                             {?>
                               <div class="col">
                                   <form action = "code.php" method = "post">
-                                    <input type="text" name = "txt_comment" class="form-control" placeholder="Write Comments here ...">
+                                    <input type="text" name = "txt_comment" class="form-control" placeholder="Write Comments here ..." required>
                                 </div>
                               <div class="col-auto">
                                 <button type="submit" value="<?php echo $_GET['id'] ?>" name = "art_approve" class="btn bg-gradient-success">Approve</button>

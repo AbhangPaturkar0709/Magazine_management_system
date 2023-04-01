@@ -52,7 +52,7 @@ include("includes/sidebar.php");
     <?php
         if(isset($_POST['save_article']))
         {
-            $sid = $_POST['sid'];
+            $sid = strtoupper($_POST['sid']);
             $article_title = trim($_POST['art_title']);
             $article_category = $_POST['category'];
             $doc = preg_replace("/\s+/","_", $_FILES['file']['name']);
@@ -112,6 +112,7 @@ include("includes/sidebar.php");
       <div class="container">
         <div class="row">
           <div class="col-md-12">
+            <?php include("message.php")?>
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Submitted Articles</h3>
@@ -182,11 +183,7 @@ include("includes/sidebar.php");
                         <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item view_data" href="view_magzine.php?id=<?php echo $row['id']; ?>&page=studart"><span class="fa fa-eye text-dark"></span> View</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                              <a class="dropdown-item view_data" href="view_article.php?id=<?php echo $row['id']; ?>&page=studart"><span class="fa fa-eye text-dark"></span> View</a>
                             </div>
                       </td>
 						        </tr>

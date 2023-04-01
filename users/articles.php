@@ -33,7 +33,6 @@ include("includes/sidebar.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Submitted Articles</h3>
-                <a href="#" data-toggle="modal" data-target="#AddArticleModal" class = "btn btn-primary float-right">Add Article</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -94,10 +93,6 @@ include("includes/sidebar.php");
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item view_data" href="view_article.php?id=<?php echo $row['id']; ?>&page=studart"><span class="fa fa-eye text-dark"></span> View</a>
-                              <!-- <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a> -->
                             </div>
                       </td>
 						        </tr>

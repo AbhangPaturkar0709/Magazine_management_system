@@ -93,29 +93,7 @@ include("includes/sidebar.php");
         </div>
       </div>
     </div>
-      <!-- Modal view student -->
-  <div class="modal fade" id="user_profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Student Profile</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-            <div class="modal-body">
-                <input type="hidden" id="stud_id">
-                
-                <div class="row">
-                  <span text="center"></span>
-                  </div>
-              </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-      </div>
-    </div>
+
     <script>
       function Toogle() {
         var temp = document.getElementById("pass");
@@ -206,10 +184,33 @@ include("includes/sidebar.php");
                 $year = '3rd';
               }
 
-              $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
-              if(mysqli_query($connect, $query))
+              if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
               {
-                  $_SESSION['status'] = "Student Added successfully...";
+                $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
+                if(mysqli_query($connect, $query))
+                {
+                    $_SESSION['status'] = "Student Added successfully...";
+                }
+              }
+              elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
+              {
+                $dept_name = $_SESSION['auth_admin']['admin_dept'];
+                $query="select id, code from department where d_name = '$dept_name'";
+                $row = mysqli_fetch_assoc($result = mysqli_query($connect, $query));
+                $dpt_code = $row['code'];
+                $d_id = $row['id'];
+                if($dept_code !== $dpt_code)
+                {
+                  $_SESSION['status'] = "Invalid ID-CODE...";
+                }
+                else
+                {
+                  $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
+                  if(mysqli_query($connect, $query))
+                  {
+                      $_SESSION['status'] = "Student Added successfully...";
+                  }
+                }
               }
             }
             else
@@ -221,6 +222,41 @@ include("includes/sidebar.php");
           {
             $_SESSION['status'] = "Password and confirm password must be same...";
           }
+    }
+    ?>
+
+    
+     <!-- Modal delete date -->
+  <div class="modal fade" id="DeleteDataConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <input type="text" name="id" id="stud_id">
+            Are your sure to Delete Student? 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="RemoveRole">YES</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <?php
+    if(isset($_POST['RemoveRole']))
+    {
+        $id = $_POST['id'];
+        include("config/connection.php");
+        $query = "delete from users where id = '$id'";
+        mysqli_query($connect, $query);
     }
     ?>
 
@@ -253,6 +289,7 @@ include("includes/sidebar.php");
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -279,16 +316,16 @@ include("includes/sidebar.php");
                       <td class="text"><?php echo $row['id'] ?></td>
                       <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
                       <td class="text"><?php echo ucwords($row['d_name']) ?></td>
-                      <td class="text"><?php echo $row['year']," Year" ?></td>
+                      <td class="text"><?php echo $row['year']." Year" ?></td>
                       <td align="center">
                         <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
-                              <button type="button" value="<?php echo $row['id']; ?>" class="dropdown-item view_user"><span class="fa fa-eye text-dark"></span> View</button>
+                              <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id'] ?>&page=studprof" data-id ="<?php echo $row['id'] ?>&page=studprof"><span class="fa fa-eye text-dark"></span> View</a>
                               <div class="dropdown-divider"></div>
                               <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
                               <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                              <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
                             </div>
                       </td>
 						        </tr>
@@ -309,6 +346,63 @@ include("includes/sidebar.php");
                     ?>
                   </tbody>
                 </table>
+                <?php }elseif($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
+                  <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>ID Code</th>
+                      <th>Full Name</th>
+                      <th>Year</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      $i = 1;
+                      include("config/connection.php");
+                      $dept = $_SESSION['auth_admin']['admin_dept'];
+                      $query = "Select u.id, u.firstname, u.middlename, u.lastname, u.year from users as u inner join department as d on u.deptno = d.id where u.role in ('STUDENT', 'COORDINATOR') && d.d_name='$dept'";
+                      $result = mysqli_query($connect, $query);
+                      if(mysqli_num_rows($result) > 0)
+                      {
+                      while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                    <tr>
+                      <td class="text-center"><?php echo $i++; ?></td>
+                      <td class="text"><?php echo $row['id'] ?></td>
+                      <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
+                      <td class="text"><?php echo $row['year']." Year" ?></td>
+                      <td align="center">
+                        <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
+                          <span class="sr-only">Toggle Dropdown</span></button>
+                            <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id'] ?>&page=studprof" data-id ="<?php echo $row['id'] ?>&page=studprof"><span class="fa fa-eye text-dark"></span> View</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
+                              <div class="dropdown-divider"></div>
+                              <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
+                            </div>
+                      </td>
+						        </tr>
+                    <?php 
+                          }
+                        }
+                        else
+                        {
+                            ?>
+                              <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                                <strong>Hey..!</strong> No Data Found...
+                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                    </button>
+                                </div>
+                            <?php
+                        }
+                    ?>
+                  </tbody>
+                </table>
+                <?php } ?>
              </div>
             </div>
           </div>
@@ -321,12 +415,12 @@ include("includes/script.php");
 ?>
 <script>
   $(document).ready(function (){
-    $('.view_user').click(function (e) {
+    $('.delete_data').click(function (e) {
       e.preventDefault();
       var usr_id = $(this).val();
 
       $('#stud_id').val(usr_id);
-      $('#user_profile').modal('show');
+      $('#DeleteDataConfirmation').modal('show');
       
     });
   });

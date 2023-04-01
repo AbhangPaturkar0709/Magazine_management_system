@@ -152,7 +152,7 @@ include("includes/sidebar.php");
                         <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item view_data" href="view_magzine.php?id=<?php echo $row['id']; ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                              <a class="dropdown-item view_data" href="view_article.php?id=<?php echo $row['id']; ?>"><span class="fa fa-eye text-dark"></span> View</a>
                               <div class="dropdown-divider"></div>
                               <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
                               <div class="dropdown-divider"></div>
@@ -214,10 +214,6 @@ include("includes/sidebar.php");
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item view_data" href="view_article.php?id=<?php echo $row['id']; ?>&page=staffart"><span class="fa fa-eye text-dark"></span> View</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
-                              <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
                             </div>
                       </td>
 						        </tr>

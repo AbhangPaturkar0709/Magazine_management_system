@@ -185,6 +185,40 @@ include("includes/sidebar.php");
     }
     ?>
 
+    <!-- Modal delete date -->
+  <div class="modal fade" id="DeleteDataConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <input type="hidden" name="id" id="stud_id">
+            Are your sure to Delete Student? 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="RemoveRole">YES</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <?php
+    if(isset($_POST['RemoveRole']))
+    {
+        $id = $_POST['id'];
+        include("config/connection.php");
+        $query = "delete from users where id = '$id'";
+        mysqli_query($connect, $query);
+    }
+    ?>
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -243,11 +277,11 @@ include("includes/sidebar.php");
                         <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">Action
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item view_data" href="view_magzine.php?id=<?php echo $row['id']; ?>" data-id ="<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                              <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id']; ?>&page=staffprof" data-id ="<?php echo $row['id'] ?>&page=staffprof"><span class="fa fa-eye text-dark"></span> View</a>
                               <div class="dropdown-divider"></div>
                               <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
                               <div class="dropdown-divider"></div>
-                                <a class="dropdown-item delete_data" href="#" data-id ="#"><span class="fa fa-trash text-danger"></span> Delete</a>
+                              <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
                             </div>
                       </td>
 						        </tr>
@@ -277,6 +311,20 @@ include("includes/sidebar.php");
       
 <?php
 include("includes/script.php");
+?>
+<script>
+  $(document).ready(function (){
+    $('.delete_data').click(function (e) {
+      e.preventDefault();
+      var usr_id = $(this).val();
+
+      $('#stud_id').val(usr_id);
+      $('#DeleteDataConfirmation').modal('show');
+      
+    });
+  });
+</script>
+<?php
 include("includes/footer.php");
 ?>
 
