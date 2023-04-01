@@ -12,11 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for magzinedb
-CREATE DATABASE IF NOT EXISTS `magzinedb` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-USE `magzinedb`;
+-- Dumping database structure for magazinedb
+CREATE DATABASE IF NOT EXISTS `magazinedb` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `magazinedb`;
 
--- Dumping structure for table magzinedb.articles
+-- Dumping structure for table magazinedb.articles
 CREATE TABLE IF NOT EXISTS `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
@@ -31,11 +31,11 @@ CREATE TABLE IF NOT EXISTS `articles` (
   CONSTRAINT `FK_SID` FOREIGN KEY (`stud_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.articles: ~0 rows (approximately)
+-- Dumping data for table magazinedb.articles: ~1 rows (approximately)
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
--- Dumping structure for table magzinedb.department
+-- Dumping structure for table magazinedb.department
 CREATE TABLE IF NOT EXISTS `department` (
   `id` int(11) NOT NULL,
   `d_name` varchar(50) DEFAULT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.department: ~9 rows (approximately)
+-- Dumping data for table magazinedb.department: ~9 rows (approximately)
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
 INSERT INTO `department` (`id`, `d_name`, `code`) VALUES
 	(0, '', NULL),
@@ -57,7 +57,7 @@ INSERT INTO `department` (`id`, `d_name`, `code`) VALUES
 	(8, 'PLASTIC AND POLYMER ENGINEERING', 'PP');
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
 
--- Dumping structure for table magzinedb.magazines
+-- Dumping structure for table magazinedb.magazines
 CREATE TABLE IF NOT EXISTS `magazines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS `magazines` (
   CONSTRAINT `FKUPLOADBY` FOREIGN KEY (`uploadby`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.magazines: ~0 rows (approximately)
+-- Dumping data for table magazinedb.magazines: ~0 rows (approximately)
 /*!40000 ALTER TABLE `magazines` DISABLE KEYS */;
 /*!40000 ALTER TABLE `magazines` ENABLE KEYS */;
 
--- Dumping structure for table magzinedb.users
+-- Dumping structure for table magazinedb.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` varchar(7) NOT NULL,
   `firstname` varchar(20) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FKDEPTNO` FOREIGN KEY (`deptno`) REFERENCES `department` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table magzinedb.users: ~1 rows (approximately)
+-- Dumping data for table magazinedb.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `firstname`, `middlename`, `lastname`, `deptno`, `year`, `role`, `email`, `password`, `mob`) VALUES
 	('001', 'ADMIN', 'ADMIN', 'ADMIN', 0, NULL, 'ADMIN', 'admin123@gmail.com', 'admin@123', 7894561230);
