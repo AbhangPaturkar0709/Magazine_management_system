@@ -50,7 +50,7 @@ if(isset($_SESSION['users_auth']))
                             </div>
                             <hr>
                             <div class="form-group">
-                                <a href="../index.html" >Back To Home Page</a>
+                                <a href="../index.php" >Back To Home Page</a>
                             </div>
                         </form>
                     </div>
