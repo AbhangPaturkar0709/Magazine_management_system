@@ -185,7 +185,7 @@ include("includes/sidebar.php");
     }
     ?>
 
-    <!-- Modal delete date -->
+    <!-- Modal delete data -->
   <div class="modal fade" id="DeleteDataConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
