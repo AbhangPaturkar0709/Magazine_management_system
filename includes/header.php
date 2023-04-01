@@ -11,5 +11,4 @@
     <!-- MDB -->
     <link rel="stylesheet" href="includes/css/mdb.min.css" />
     <title>Digital Magazine</title>
-    tit
   </head>
