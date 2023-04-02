@@ -36,9 +36,10 @@
                 'admin_email' => $admin_email,
                 'admin_mob' => $admin_mob
             ];
+
             $_SESSION['status'] = "Logged In Successfully";
-            
             header("Location: index.php");
+
 
         }
         else
@@ -70,8 +71,10 @@
                     'admin_email' => $admin_email,
                     'admin_mob' => $admin_mob
                 ];
+           
                 $_SESSION['status'] = "Logged In Successfully";
                 header("Location: index.php");
+
             }
             else
             {

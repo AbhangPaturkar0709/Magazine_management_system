@@ -36,9 +36,10 @@
                 'user_email' => $user_email,
                 'user_mob' => $user_mob
             ];
-            $_SESSION['status'] = "Logged In Successfully";
 
+            $_SESSION['status'] = "Logged In Successfully";
             header("Location: index.php");
+
         }
         else
         {

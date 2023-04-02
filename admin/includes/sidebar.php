@@ -31,6 +31,7 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+
             <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){ ?>
             <ul class="nav nav-treeview">
               <li class="nav-item">
@@ -46,6 +47,7 @@
                 </a>
               </li>
             </ul>
+            
             <?php }elseif($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
             <ul class="nav nav-treeview">
               <li class="nav-item">
