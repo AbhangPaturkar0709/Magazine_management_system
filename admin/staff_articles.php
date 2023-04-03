@@ -20,7 +20,7 @@ include("includes/sidebar.php");
           <form action ="#" method ="post" enctype = "multipart/form-data">
             <div class="modal-body">
               <div class="form-group">
-                <label for ="sid">ID Code</label>
+                <label for ="sid">STAFF-ID</label>
                 <input name = "sid" type="text" class="form-control" placeholder ="ID Code" required>
               </div>
               <div class="form-group">
