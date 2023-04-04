@@ -37,13 +37,15 @@ include("includes/sidebar.php");
     {
         $id = $_POST['id'];
         include("config/connection.php");
-        $query = "select filename from magazines where id = $id";
+        $query = "select filename, coverpage from magazines where id = $id";
         $result = mysqli_query($connect, $query);
         $row = mysqli_fetch_assoc($result);
         $file = $row['filename'];
+        $coverpage = $row['coverpage'];
         $query = "delete from magazines where id = '$id'";
         mysqli_query($connect, $query);
         unlink('../Documents/' . $file);
+        unlink('../Documents/' . $coverpage);
         mysqli_close($connect);
     }
     ?>
