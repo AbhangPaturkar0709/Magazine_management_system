@@ -97,7 +97,7 @@ include("includes/sidebar.php");
                                       {
                                         echo "<i class='text-secondary'>".ucwords($status)."</i>";
                                       } 
-                                      elseif($status === "APPORVED")
+                                      elseif($status === "APPROVED")
                                       {
                                         echo "<b class='text-success'>".ucwords($status)."</b>";
                                       } 
