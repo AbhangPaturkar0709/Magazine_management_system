@@ -73,27 +73,6 @@ include("includes/sidebar.php");
                 <form action="" method="POST">
                   <div class="row justify-content-center">
                       <div class="row">
-                      <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
-                          <div class="col">
-                              <select name="DEPT" class="form-control">
-                                  <option value="-1">Select Department</option>
-                                      <?php 
-                                      include("config/connection.php");
-                                      $query = "select * from department where id > 0";
-                                      $result = mysqli_query($connect, $query);
-                                      while($row = mysqli_fetch_assoc($result))
-                                      {
-                                          echo "<option value = '";
-                                          echo $row['id'];
-                                          echo "'>";
-                                          echo $row['d_name'];
-                                          echo "</option>";
-                                      }
-                                      mysqli_close($connect);
-                                      ?>
-                                  </select>
-                              </div>
-                              <?php }?>
                           <div class="col">
                               <select name="year" class="form-control">
                                   <option value="-1">Select Year</option>
@@ -119,72 +98,13 @@ include("includes/sidebar.php");
                       <th>Sr. No.</th>
                       <th>ID Code</th> 
                       <th>Full Name</th>
-                      <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
-                        <th>Department</th>
-                        <?php }?>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- <tr> -->
               <?php
-              if(isset($_POST['DEPT']) && isset($_POST['year']))
-              {
-                if($_POST['DEPT'] == "-1" && $_POST['year'] == "-1")
-                {
-                  echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                          <strong>Hey..!</strong> No Data Found...
-                              <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                              <span aria-hidden='true'>&times;</span>
-                              </button>
-                          </div>";
-                }
-                else
-                {
-                  include("config/connection.php");
-                  $i = 1;
-                  $dept = $_POST['DEPT'];
-                  $year = $_POST['year']; 
-                  $query = "select usr.id, usr.firstname, usr.middlename, usr.lastname, dpt.d_name FROM users AS usr JOIN department AS dpt ON usr.deptno = dpt.id WHERE usr.role = 'COORDINATOR' && dpt.id = '$dept' && usr.year = '$year'";
-                  $result = mysqli_query($connect, $query);
-                  if(mysqli_num_rows($result) > 0)
-                  {
-                    echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                            <strong>Hey..!</strong> Only 1 student can be a co-ordinator of each branch per year...
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
-                                </button>
-                            </div>";
-                  }
-                  else
-                  {
-                    $query = "select usr.id, usr.firstname, usr.middlename, usr.lastname, dpt.d_name FROM users AS usr JOIN department AS dpt ON usr.deptno = dpt.id WHERE usr.role = 'STUDENT' && dpt.id = '$dept' && usr.year = '$year'";
-                    $result = mysqli_query($connect, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                      while($row = mysqli_fetch_assoc($result))
-                      { 
-                        echo "<tr><td class='text-center'>". $i++ ."</td>
-                        <td class='text'>". $row['id'] ."</td>
-                        <td class='text'>". ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ."</td>
-                        <td class='text'>". ucwords($row['d_name']) ."</td>
-                        <td align='center'><button type='button' value='". $row['id']." ' class='btn btn-info btn-sm ChangeRole'>Enroll</button></td></tr>";
-                      }
-                      mysqli_close($connect);
-                    }
-                    else
-                    {
-                      echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                            <strong>Hey..!</strong> No Data Found...
-                              <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                              <span aria-hidden='true'>&times;</span>
-                              </button>
-                          </div>";
-                    }
-                  }
-                }
-              }
-              elseif(isset($_POST['year']))
+              if(isset($_POST['year']))
               {
                   include("config/connection.php");
                   $i = 1;

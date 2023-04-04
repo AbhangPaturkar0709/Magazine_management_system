@@ -24,51 +24,17 @@
 
           
           <li class="nav-item">
-            <a href="#" class="nav-link <?= $page == 'student_articles.php' || $page == 'staff_articles.php' || $page == 'view_article.php'? 'active':'' ?>">
+            <a href="student_articles.php" class="nav-link <?= $page == 'student_articles.php' || $page == 'view_article.php'? 'active':'' ?>">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Articles
-                <i class="right fas fa-angle-left"></i>
+                Students Articles
               </p>
             </a>
-
-            <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){ ?>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="student_articles.php" class="nav-link <?= $page == 'student_articles.php' ? 'active':'' ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Student Articles</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="staff_articles.php" class="nav-link <?= $page == 'staff_articles.php' ? 'active':'' ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Staff Articles</p>
-                </a>
-              </li>
-            </ul>
-            
-            <?php }elseif($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="staff_articles.php" class="nav-link <?= $page == 'staff_articles.php' ? 'active':'' ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>My Articles</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="student_articles.php" class="nav-link <?= $page == 'student_articles.php' ? 'active':'' ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Student Articles</p>
-                </a>
-              </li>
-            </ul>
           </li>
-            <?php }?>
 
           <li class="nav-item">
             <a href="#" class="nav-link <?= $page == 'student.php' || $page == 'staff.php' || $page == 'coordinator.php' || $page == 'Register_coordinator.php' || $page == 'userprofile.php' ? 'active':'' ?>">
-            <i class="fas fa-circle nav-icon"></i>
+            <i class="fas fa-user nav-icon"></i>
               <p>
                 Users
                 <i class="right fas fa-angle-left"></i>
@@ -88,13 +54,15 @@
                   <p>Staff</p>
                 </a>
               </li>
-              <?php }?>
+              <?php }
+              if($_SESSION['auth_admin']['admin_role'] == "STAFF"){ ?>
               <li class="nav-item">
                 <a href="coordinator.php" class="nav-link <?= $page == 'coordinator.php' ? 'active':'' ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Co-ordinator</p>
                 </a>
               </li>
+              <?php }?>
             </ul>
           </li>
           <li class="nav-item">
@@ -105,6 +73,14 @@
               </p>
             </a>
           </li>
+          <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){ ?>
+            <li class="nav-item">
+              <a href="department.php" class="nav-link <?= $page == 'department.php' ? 'active':'' ?>">
+                &nbsp;&nbsp;<i class="fa fa-building"></i>
+                &nbsp;&nbsp;<p>Department</p>
+              </a>
+            </li>
+          <?php }?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

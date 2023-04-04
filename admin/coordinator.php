@@ -70,55 +70,6 @@ include("includes/sidebar.php");
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>ID Code</th>
-                      <th>Full Name</th>
-                      <th>Department</th>
-                      <th>Year</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php 
-                      $i = 1;
-                      include("config/connection.php");
-                      $query = "Select u.id, u.firstname, u.middlename, u.lastname, d.d_name, u.year from users as u inner join department as d on u.deptno = d.id where u.role = 'COORDINATOR'";
-                      $result = mysqli_query($connect, $query);
-                      if(mysqli_num_rows($result) > 0)
-                      {
-                      while($row = mysqli_fetch_assoc($result)){
-                    ?>
-                    <tr>
-                      <td class="text-center"><?php echo $i++; ?></td>
-                      <td class="text"><?php echo $row['id'] ?></td>
-                      <td class="text"><?php echo ucwords($row['firstname']." ".$row['middlename']." ".$row['lastname']) ?></td>
-                      <td class="text"><?php echo ucwords($row['d_name']) ?></td>
-                      <td class="text"><?php echo $row['year']." Year" ?></td>
-                      <td align="center"><button type="button" value="<?php echo $row['id'] ?>" class="btn btn-danger btn-sm RemoveRole">Remove</button></td>
-						        </tr>
-                    <?php 
-                          }
-                          mysqli_close($connect);  
-                        }
-                        else
-                        {
-                            ?>
-                              <div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                                <strong>Hey..!</strong> No Data Found...
-                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                    </button>
-                                </div>
-                            <?php
-                        }
-                    ?>
-                  </tbody>
-                </table>
-                <?php }elseif($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
                   <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -165,7 +116,6 @@ include("includes/sidebar.php");
                     ?>
                   </tbody>
                 </table>
-                <?php } ?>
              </div>
             </div>
           </div>

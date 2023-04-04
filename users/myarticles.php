@@ -157,7 +157,7 @@ include("includes/sidebar.php");
           ?>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Submitted Articles</h3>
+                <h3 class="card-title">My Submitted Articles</h3>
                 <a href="#" data-toggle="modal" data-target="#AddArticleModal" class = "btn btn-primary float-right">Add Article</a>
               </div>
               <!-- /.card-header -->

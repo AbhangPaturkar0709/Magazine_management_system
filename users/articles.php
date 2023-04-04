@@ -32,7 +32,7 @@ include("includes/sidebar.php");
           ?>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Submitted Articles</h3>
+                <h3 class="card-title">Students Submitted Articles</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -54,8 +54,7 @@ include("includes/sidebar.php");
                       $i = 1;
                       include("config/connection.php");
                       $stud_dept = $_SESSION['auth_user']['user_dept'];
-                      $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = '$stud_dept'";
-                      // $query = "Select *from articles where stud_ = '$stud_dept'";
+                      $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = '$stud_dept' and usr.role in ('STUDENT', 'COORDINATOR')";
                       $result = mysqli_query($connect, $query);
                       if(mysqli_num_rows($result) > 0)
                       {
@@ -73,7 +72,7 @@ include("includes/sidebar.php");
                               {
                                 echo "<i class='text-secondary'>".ucwords($status)."</i>";
                               } 
-                              elseif($status === "APPORVED")
+                              elseif($status === "APPROVED")
                               {
                                 echo "<b class='text-success'>".ucwords($status)."</b>";
                               } 

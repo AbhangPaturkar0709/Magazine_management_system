@@ -115,13 +115,13 @@ include("includes/sidebar.php");
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Submitted Articles</h3>
+                <?php if($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
+                <h3 class="card-title">My Submitted Articles</h3>
                 <a href="#" data-toggle="modal" data-target="#AddArticleModal" class = "btn btn-primary float-right">Add Article</a>
               </div>
 
               <!-- /.card-header -->
             <div class="card-body">
-                <?php if($_SESSION['auth_admin']['admin_role'] == "STAFF"){?>
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -180,6 +180,11 @@ include("includes/sidebar.php");
                   </tbody>
                 </table>
                 <?php }elseif($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>
+                  <h3 class="card-title">Staffs Submitted Articles</h3>
+               </div>
+
+                <!-- /.card-header -->
+              <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -196,8 +201,7 @@ include("includes/sidebar.php");
                     <?php 
                         $i = 1;
                         include("config/connection.php");
-                        $user_role=$_SESSION['auth_admin']['admin_role'];
-                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.stud_id, dpt.d_name from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where usr.role='$user_role'";
+                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.stud_id, dpt.d_name from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where usr.role='STAFF'";
                         
                         $result = mysqli_query($connect, $query);
                         if(mysqli_num_rows($result) > 0)

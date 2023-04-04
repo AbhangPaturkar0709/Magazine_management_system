@@ -116,7 +116,7 @@ include("includes/sidebar.php");
             <?php include("message.php")?>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Submitted Articles</h3>
+                <h3 class="card-title">Students Submitted Articles</h3>
                 <a href="#" data-toggle="modal" data-target="#AddArticleModal" class = "btn btn-primary float-right">Add Article</a>
               </div>
               <!-- /.card-header -->
@@ -146,7 +146,7 @@ include("includes/sidebar.php");
                       elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
                       {
                         $dept = $_SESSION['auth_admin']['admin_dept'];
-                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = '$dept'";
+                        $query = "select art.id, art.title, art.category, art.file, art.uploaddate, art.status, art.comment, art.stud_id from articles as art join users as usr on art.stud_id = usr.id join department as dpt on usr.deptno = dpt.id where dpt.d_name = '$dept' and usr.role in ('STUDENT', 'COORDINATOR')";
                       }
                       
                       $result = mysqli_query($connect, $query);
@@ -166,7 +166,7 @@ include("includes/sidebar.php");
                        {
                         echo "<i class='text-secondary'>".ucwords($status)."</i>";
                        } 
-                       elseif($status === "APPORVED")
+                       elseif($status === "APPROVED")
                        {
                         echo "<b class='text-success'>".ucwords($status)."</b>";
                        } 
