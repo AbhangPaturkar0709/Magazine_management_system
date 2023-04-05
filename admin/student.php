@@ -23,19 +23,19 @@ include("includes/sidebar.php");
                   <div class="col">
                     <div class="form-group">
                       <label for ="firstname">First Name</label>
-                      <input type="text" name="firstname" class="form-control" value="" placeholder ="Enter First Name">
+                      <input type="text" name="firstname" class="form-control" value="" placeholder ="Enter First Name" required>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for ="middlename">Middle Name</label>
-                      <input type="text" name="middlename" class="form-control" value="" placeholder ="Enter Middle Name">
+                      <input type="text" name="middlename" class="form-control" value="" placeholder ="Enter Middle Name" required>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for ="surname">Surname</label>
-                      <input type="text" name="surname" class="form-control" value="" placeholder ="Enter Surname">
+                      <input type="text" name="surname" class="form-control" value="" placeholder ="Enter Surname" required>
                     </div>
                   </div>
                 </div>
@@ -43,13 +43,13 @@ include("includes/sidebar.php");
                 <div class="col">
                       <div class="form-group">
                         <label for ="email">E-mail</label>
-                        <input type="email" name="email" class="form-control" value="" placeholder ="Enter E-mail">
+                        <input type="email" name="email" class="form-control" value="" placeholder ="Enter E-mail" required>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="mob">Mobile</label>
-                        <input type="text" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number">
+                        <input type="text" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number" required>
                       </div>
                     </div>
                   </div>
@@ -58,19 +58,19 @@ include("includes/sidebar.php");
                     <div class="col">
                         <div class="form-group">
                           <label for ="idcode">ID Code</label>
-                          <input type="text" name="idcode" class="form-control" value="" placeholder ="Enter ID Code E.g.(20CM00X, 19ME0XX, etc.)">
+                          <input type="text" name="idcode" class="form-control" value="" placeholder ="Enter ID Code E.g.(20CM00X, 19ME0XX, etc.)" required>
                         </div>
                       </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="pass">Password</label>
-                        <input type="password" name="pass" class="form-control" id = "pass" value="" placeholder ="Enter Password" >
+                        <input type="password" name="pass" class="form-control" id = "pass" value="" placeholder ="Enter Password" required>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="cpass">Confirm Password</label>
-                        <input type="password" name="cpass" class="form-control" id = "cpass" value="" placeholder ="Re-enter Password">
+                        <input type="password" name="cpass" class="form-control" id = "cpass" value="" placeholder ="Re-enter Password" required>
                       </div>
                     </div>
                   </div>
@@ -112,80 +112,109 @@ include("includes/sidebar.php");
     <?php
     if(isset($_POST['save_student']))
     {
-        $idcode = strtoupper(trim($_POST['idcode']));
-        $firstname = strtoupper(trim($_POST['firstname']));
-        $middlename = strtoupper(trim($_POST['middlename']));
-        $lastname = strtoupper(trim($_POST['surname']));
-        $email = strtolower(trim($_POST['email']));
-        $mob = $_POST['mob'];
+      $idcode = strtoupper(trim($_POST['idcode']));
+      $firstname = strtoupper(trim($_POST['firstname']));
+      $middlename = strtoupper(trim($_POST['middlename']));
+      $lastname = strtoupper(trim($_POST['surname']));
+      $email = strtolower(trim($_POST['email']));
+      $mob = $_POST['mob'];
         
-          if((!preg_match("/^[a-zA-z]*$/", $firstname)) || (!preg_match("/^[a-zA-z]*$/", $middlename))  || (!preg_match("/^[a-zA-z]*$/", $lastname)))
+      include("config/connection.php");
+      $query = "select *from users where email = '$email'";
+      $result = mysqli_query($connect, $query);
+      if(mysqli_num_rows($result) > 0)
+      {
+        $_SESSION['status'] = "Email Already Exists...";
+      }
+      else
+      {
+        if((!preg_match("/^[a-zA-z]*$/", $firstname)) || (!preg_match("/^[a-zA-z]*$/", $middlename))  || (!preg_match("/^[a-zA-z]*$/", $lastname)))
+        {
+          $_SESSION['status'] = "Invalid First Name or Middle Name or Last Name... ";
+        }
+        elseif(!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+          $_SESSION['status'] = "Invalid E-mail... ";
+        }
+        elseif(!preg_match('/^[0-9]{10}+$/', $mob))
+        {
+          $_SESSION['status'] = "Invalid Mobile Number... ";
+        }
+        elseif(strlen($idcode) !== 7)
+        {
+          $_SESSION['status'] = "Invalid ID-CODE... "; 
+        }
+        elseif(strlen($idcode) == 7)
+        {
+          include("config/connection.php");
+          
+          $query = "select *from users where id = '$idcode'";
+          $result = mysqli_query($connect, $query);
+          if(mysqli_num_rows($result) > 0)
           {
-            $_SESSION['status'] = "Invalid First Name or Middle Name or Last Name... ";
+              $_SESSION['status'] = "Already registered with ID-CODE : $idcode";
           }
-          elseif((!preg_match("^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*(\.[a-z]{2,3})$^", $email)))
-          {
-            $_SESSION['status'] = "Invalid E-mail... ";
-          }
-          elseif(!preg_match('/^[0-9]{10}+$/', $mob))
-          {
-            $_SESSION['status'] = "Invalid Mobile Number... ";
-          }
-          elseif(strlen($idcode) !== 7)
-          {
-            $_SESSION['status'] = "Invalid ID-CODE... "; 
-          }
-          elseif(strlen($idcode) == 7)
-          {
-            include("config/connection.php");
-            
-            $query = "select *from users where id = '$idcode'";
-            $result = mysqli_query($connect, $query);
-            if(mysqli_num_rows($result) > 0)
-            {
-                $_SESSION['status'] = "Already registered with ID-CODE : $idcode";
-            }
-            mysqli_close($connect);
-          }
-          if($_POST['pass'] === $_POST['cpass'])
-          {
-            $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
-            $lowercase = preg_match('@[a-z]@', $_POST['pass']);
-            $number = preg_match('@[0-9]@', $_POST['pass']);
-            $specialchar = preg_match('@[^\w]@', $_POST['pass']);
-            $pass = $_POST['pass'];
+          mysqli_close($connect);
+        }
+        
+        if($_POST['pass'] === $_POST['cpass'])
+        {
+          $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
+          $lowercase = preg_match('@[a-z]@', $_POST['pass']);
+          $number = preg_match('@[0-9]@', $_POST['pass']);
+          $specialchar = preg_match('@[^\w]@', $_POST['pass']);
+          $pass = $_POST['pass'];
 
-            if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
+          if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
+          {
+            $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
+          }
+          
+          include("config/connection.php");
+          $dept_code = substr($idcode, 2, 2);
+          $YearFromId = substr($idcode, 0, 2);
+          $CurrentYear = date("y");
+          $query = "select id from department where code = '$dept_code'";
+          $result = mysqli_query($connect, $query);
+          if((mysqli_num_rows($result)>0) && (($YearFromId <= $CurrentYear) && ($YearFromId >= $CurrentYear-3)))
+          {
+            $row = mysqli_fetch_assoc($result);
+            $dept = $row['id'];
+            $x = $CurrentYear - $YearFromId;
+            $year = "";
+            if($x == 0 || $x == 1)
             {
-              $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
+              $year = '1st';
             }
-            
-            include("config/connection.php");
-            $dept_code = substr($idcode, 2, 2);
-            $YearFromId = substr($idcode, 0, 2);
-            $CurrentYear = date("y");
-            $query = "select id from department where code = '$dept_code'";
-            $result = mysqli_query($connect, $query);
-            if((mysqli_num_rows($result)>0) && (($YearFromId <= $CurrentYear) && ($YearFromId >= $CurrentYear-3)))
+            elseif($x == 2)
             {
-              $row = mysqli_fetch_assoc($result);
-              $dept = $row['id'];
-              $x = $CurrentYear - $YearFromId;
-              $year = "";
-              if($x == 0 || $x == 1)
-              {
-                $year = '1st';
-              }
-              elseif($x == 2)
-              {
-                $year = '2nd';
-              }
-              elseif($x == 3)
-              {
-                $year = '3rd';
-              }
+              $year = '2nd';
+            }
+            elseif($x == 3)
+            {
+              $year = '3rd';
+            }
 
-              if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
+            if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
+            {
+              $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
+              if(mysqli_query($connect, $query))
+              {
+                  $_SESSION['status'] = "Student Added successfully...";
+              }
+            }
+            elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
+            {
+              $dept_name = $_SESSION['auth_admin']['admin_dept'];
+              $query="select id, code from department where d_name = '$dept_name'";
+              $row = mysqli_fetch_assoc($result = mysqli_query($connect, $query));
+              $dpt_code = $row['code'];
+              $d_id = $row['id'];
+              if($dept_code !== $dpt_code)
+              {
+                $_SESSION['status'] = "Invalid ID-CODE...";
+              }
+              else
               {
                 $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
                 if(mysqli_query($connect, $query))
@@ -193,37 +222,19 @@ include("includes/sidebar.php");
                     $_SESSION['status'] = "Student Added successfully...";
                 }
               }
-              elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
-              {
-                $dept_name = $_SESSION['auth_admin']['admin_dept'];
-                $query="select id, code from department where d_name = '$dept_name'";
-                $row = mysqli_fetch_assoc($result = mysqli_query($connect, $query));
-                $dpt_code = $row['code'];
-                $d_id = $row['id'];
-                if($dept_code !== $dpt_code)
-                {
-                  $_SESSION['status'] = "Invalid ID-CODE...";
-                }
-                else
-                {
-                  $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
-                  if(mysqli_query($connect, $query))
-                  {
-                      $_SESSION['status'] = "Student Added successfully...";
-                  }
-                }
-              }
-              mysqli_close($connect);
             }
-            else
-            {
-              $_SESSION['status'] = "Invalid ID-CODE...";
-            }
+            mysqli_close($connect);
           }
           else
           {
-            $_SESSION['status'] = "Password and confirm password must be same...";
+            $_SESSION['status'] = "Invalid ID-CODE...";
           }
+        }
+        else
+        {
+          $_SESSION['status'] = "Password and confirm password must be same...";
+        }
+      }
     }
     ?>
 

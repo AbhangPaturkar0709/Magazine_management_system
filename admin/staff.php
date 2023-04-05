@@ -23,19 +23,19 @@ include("includes/sidebar.php");
                   <div class="col">
                     <div class="form-group">
                       <label for ="firstname">First Name</label>
-                      <input type="text" name="firstname" class="form-control" value="" placeholder ="Enter First Name">
+                      <input type="text" name="firstname" class="form-control" value="" placeholder ="Enter First Name" required>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for ="middlename">Middle Name</label>
-                      <input type="text" name="middlename" class="form-control" value="" placeholder ="Enter Middle Name">
+                      <input type="text" name="middlename" class="form-control" value="" placeholder ="Enter Middle Name" required>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for ="surname">Surname</label>
-                      <input type="text" name="surname" class="form-control" value="" placeholder ="Enter Surname">
+                      <input type="text" name="surname" class="form-control" value="" placeholder ="Enter Surname" required>
                     </div>
                   </div>
                 </div>
@@ -43,13 +43,13 @@ include("includes/sidebar.php");
                 <div class="col">
                       <div class="form-group">
                         <label for ="email">E-mail</label>
-                        <input type="email" name="email" class="form-control" value="" placeholder ="Enter E-mail">
+                        <input type="email" name="email" class="form-control" value="" placeholder ="Enter E-mail" required>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="mob">Mobile</label>
-                        <input type="tel" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number">
+                        <input type="tel" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number" required>
                       </div>
                     </div>
                   </div>
@@ -58,19 +58,19 @@ include("includes/sidebar.php");
                     <div class="col">
                           <div class="form-group">
                             <label for ="id">STAFF-ID</label>
-                            <input type="text" name="id" class="form-control" autocomplete="false" placeholder ="Enter ID Code E.g.(CM00X, ME0XX, etc.)">
+                            <input type="text" name="id" class="form-control" autocomplete="false" placeholder ="Enter ID Code E.g.(CM00X, ME0XX, etc.)" required>
                           </div>
                         </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="pass">Password</label>
-                        <input type="password" name="pass" class="form-control" id="pass" value="" placeholder ="Enter Password">
+                        <input type="password" name="pass" class="form-control" id="pass" value="" placeholder ="Enter Password" required>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-group">
                         <label for ="cpass">Confirm Password</label>
-                        <input type="password" name="cpass" class="form-control" id="cpass" value="" placeholder ="Re-enter Password">
+                        <input type="password" name="cpass" class="form-control" id="cpass" value="" placeholder ="Re-enter Password" required>
                       </div>
                     </div>
                   </div>
@@ -110,80 +110,90 @@ include("includes/sidebar.php");
     <?php
     if(isset($_POST['save_staff']))
     {
-      
-        $staffid = strtoupper($_POST['id']);
-        $firstname = strtoupper($_POST['firstname']);
-        $middlename = strtoupper($_POST['middlename']);
-        $lastname = strtoupper($_POST['surname']);
-        $email = $_POST['email'];
-        $mob = $_POST['mob'];
+      $staffid = strtoupper($_POST['id']);
+      $firstname = strtoupper($_POST['firstname']);
+      $middlename = strtoupper($_POST['middlename']);
+      $lastname = strtoupper($_POST['surname']);
+      $email = $_POST['email'];
+      $mob = $_POST['mob'];
 
-          if((!preg_match("/^[a-zA-z]*$/", $firstname)) || (!preg_match("/^[a-zA-z]*$/", $middlename))  || (!preg_match("/^[a-zA-z]*$/", $lastname)))
+      include("config/connection.php");
+      $query = "select *from users where email = '$email'";
+      $result = mysqli_query($connect, $query);
+      if(mysqli_num_rows($result) > 0)
+      {
+        $_SESSION['status'] = "Email Already Exists...";
+      }
+      else
+      {
+        if((!preg_match("/^[a-zA-z]*$/", $firstname)) || (!preg_match("/^[a-zA-z]*$/", $middlename))  || (!preg_match("/^[a-zA-z]*$/", $lastname)))
+        {
+          $_SESSION['status'] = "Invalid First Name or Middle Name or Last Name... ";
+        }
+        elseif(!preg_match("^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*(\.[a-z]{2,3})$^", $email))
+        {
+          $_SESSION['status'] = "Invalid E-mail... ";
+        }
+        elseif(!preg_match("/^[0-9]{10}+$/", $mob))
+        {
+          $_SESSION['status'] = "Invalid Mobile Number... ";
+        }
+        elseif(strlen($staffid) !== 5)
+        {
+          $_SESSION['status'] = "Invalid STAFF-ID... "; 
+        }
+        elseif(strlen($staffid) == 5)
+        {
+          include("config/connection.php");
+          
+          $query = "select *from users where id = '$staffid'";
+          $result = mysqli_query($connect, $query);
+          if(mysqli_num_rows($result) > 0)
           {
-            $_SESSION['status'] = "Invalid First Name or Middle Name or Last Name... ";
+              $_SESSION['status'] = "Already registered with STAFF-ID : $staffid";
           }
-          elseif(!preg_match("^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*(\.[a-z]{2,3})$^", $email))
-          {
-            $_SESSION['status'] = "Invalid E-mail... ";
-          }
-          elseif(!preg_match("/^[0-9]{10}+$/", $mob))
-          {
-            $_SESSION['status'] = "Invalid Mobile Number... ";
-          }
-          elseif(strlen($staffid) !== 5)
-          {
-            $_SESSION['status'] = "Invalid STAFF-ID... "; 
-          }
-          elseif(strlen($staffid) == 5)
-          {
-            include("config/connection.php");
-            
-            $query = "select *from users where id = '$staffid'";
-            $result = mysqli_query($connect, $query);
-            if(mysqli_num_rows($result) > 0)
-            {
-                $_SESSION['status'] = "Already registered with STAFF-ID : $staffid";
-            }
-            mysqli_close($connect);
-          }
-          if($_POST['pass'] === $_POST['cpass'])
-          {
-            $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
-            $lowercase = preg_match('@[a-z]@', $_POST['pass']);
-            $number = preg_match('@[0-9]@', $_POST['pass']);
-            $specialchar = preg_match('@[^\w]@', $_POST['pass']);
-            $pass = $_POST['pass'];
+          mysqli_close($connect);
+        }
+        if($_POST['pass'] === $_POST['cpass'])
+        {
+          $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
+          $lowercase = preg_match('@[a-z]@', $_POST['pass']);
+          $number = preg_match('@[0-9]@', $_POST['pass']);
+          $specialchar = preg_match('@[^\w]@', $_POST['pass']);
+          $pass = $_POST['pass'];
 
-            if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
-            {
-              $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
-            }
-            
-            include("config/connection.php");
-            $dept_code = substr($staffid, 0, 2);
-            $query = "select id from department where code = '$dept_code'";
-            $result = mysqli_query($connect, $query);
-            if(mysqli_num_rows($result)>0)
-            {
-              $row = mysqli_fetch_assoc($result);
-              $dept = $row['id'];
+          if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
+          {
+            $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
+          }
+          
+          include("config/connection.php");
+          $dept_code = substr($staffid, 0, 2);
+          $query = "select id from department where code = '$dept_code'";
+          $result = mysqli_query($connect, $query);
+          if(mysqli_num_rows($result)>0)
+          {
+            $row = mysqli_fetch_assoc($result);
+            $dept = $row['id'];
 
-              $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$pass', $mob)";
-              if(mysqli_query($connect, $query))
-              {
-                  $_SESSION['status'] = "Staff Added successfully...";
-              }
-            }
-            else
+            $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$pass', $mob)";
+            if(mysqli_query($connect, $query))
             {
-              $_SESSION['status'] = "Invalid STAFF-ID...";
+                $_SESSION['status'] = "Staff Added successfully...";
             }
-            mysqli_close($connect);
           }
           else
           {
-            $_SESSION['status'] = "Password and confirm password must be same...";
+            $_SESSION['status'] = "Invalid STAFF-ID...";
           }
+          mysqli_close($connect);
+        }
+        else
+        {
+          $_SESSION['status'] = "Password and confirm password must be same...";
+        
+        }
+      }
     }
     ?>
 
