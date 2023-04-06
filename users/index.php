@@ -36,301 +36,264 @@ include("includes/sidebar.php");
               include("message.php");
             ?>
           </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles WHERE stud_id = '$id'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-                
-                <p>Total Uploaded Articles</p>
-              </div>
-              <div class="icon">
-              <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-secondary">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'pending'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
+          <div class="col-lg-4 col-6">
+            <!-- PIE CHART -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Articles Status</h3>
 
-                <p>Total Pending Article</p>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                </div>
               </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
+              <div class="card-body">
+                <canvas id="pieChartMyArtStatusWise" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'Modify'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
+          </section>
+      <!-- /.content -->
+    </div>
+<?php
+include("includes/script.php");
+?>
+<script>
+<?php
+     include("config/connection.php");
+     $id = $_SESSION['auth_user']['user_id'];
 
-                <p>Under Modification Article</p>
-              </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'Approved'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
+     $query = "select count(*) from articles WHERE status = 'pending' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_pending = $row['count(*)'];
 
-                <p>Total Approved Article</p>
-              </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->  
-        </div>
-        <!-- /.row -->
-          <?php }elseif($_SESSION['auth_user']['user_role'] == "COORDINATOR"){ ?>
-            <h3 class="card-title">My Uploaded Articles</h3><br><br>
+     $query = "select count(*) from articles WHERE status = 'Approved' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_approved = $row['count(*)'];
+
+     $query = "select count(*) from articles WHERE status = 'Modify' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_modify = $row['count(*)'];
+
+     $query = "select count(*) from articles WHERE status = 'Rejected' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_rejected = $row['count(*)'];
+
+     mysqli_close($connect);
+  ?>
+  
+  $(function () {
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var pieChartMyArtStatusWiseCanvas = $('#pieChartMyArtStatusWise').get(0).getContext('2d')
+
+    var pieDataMyArtStatusWise        = {
+      labels: [
+          'Pending',
+          'Approved',
+          'Under Modification',
+          'Rejected',
+      ],
+      datasets: [
+        {
+          data: [<?php echo $count_myart_pending?>, <?php echo $count_myart_approved?>, <?php echo $count_myart_modify?>, <?php echo $count_myart_rejected?>],
+          backgroundColor : ['#7c8184', '#5cb85c', '#f0ad4e', '#d9534f'],
+        }
+      ]
+    }
+
+    var pieOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(pieChartMyArtStatusWiseCanvas, {
+      type: 'pie',
+      data: pieDataMyArtStatusWise ,
+      options: pieOptions
+    })
+
+  })
+</script>
+<?php 
+include("includes/footer.php");
+}elseif($_SESSION['auth_user']['user_role'] == "COORDINATOR"){ ?>
+
             <div class="row">
           <div class="col-md-12">
             <?php
               include("message.php");
             ?>
           </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-                
-                <p>Total Uploaded Articles</p>
-              </div>
-              <div class="icon">
-              <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-secondary">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'pending'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
+          <div class="col-lg-4 col-6">
+            <!-- PIE CHART -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Articles Status</h3>
 
-                <p>Total Pending Article</p>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                </div>
               </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
+              <div class="card-body">
+                <canvas id="pieChartMyArtStatusWise" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'Modify'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
+          <div class="col-lg-4 col-6">
+            <!-- PIE CHART -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Students Articles Status</h3>
 
-                <p>Under Modification Article</p>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                </div>
               </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
+              <div class="card-body">
+                <canvas id="pieChartStatusWise" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <?php 
-                include("config/connection.php");
-                $id = $_SESSION['auth_user']['user_id'];
-                $query = "select count(*) from articles where stud_id = '$id' and status = 'Approved'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-                
-                <p>Total Approved Articles</p>
-              </div>
-              <div class="icon">
-              <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="myarticles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-        </div>
-        <!-- /.row -->
-        <hr>
-        <h3 class="card-title">Students Articles</h3><br><br>
-        <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-primary">
-              <div class="inner">
-                <?php 
-                include("config/connection.php");
-                $dept = $_SESSION['auth_user']['user_dept'];
-                $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE users.role  IN ('STUDENT', 'COORDINATOR') and department.d_name = '$dept'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-                
-                <p>Students Total Articles</p>
-              </div>
-              <div class="icon">
-              <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="articles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-secondary">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $dept = $_SESSION['auth_user']['user_dept'];
-                $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE users.role  IN ('STUDENT', 'COORDINATOR') and department.d_name = '$dept' and articles.status = 'pending'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-
-                <p>Students Pending Article</p>
-              </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="articles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-              <?php 
-                include("config/connection.php");
-                $dept = $_SESSION['auth_user']['user_dept'];
-                $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE users.role  IN ('STUDENT', 'COORDINATOR') and department.d_name = '$dept' and articles.status = 'Modify'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-
-                <p>Students Under Modification Article</p>
-              </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="articles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <?php 
-                include("config/connection.php");
-                $dept = $_SESSION['auth_user']['user_dept'];
-                $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE users.role  IN ('STUDENT', 'COORDINATOR') and department.d_name = '$dept' and articles.status = 'Approved'";
-                $result = mysqli_query($connect, $query);
-                $row = mysqli_fetch_assoc($result);
-                echo "<h3>".$row['count(*)']."</h3>";
-                mysqli_close($connect);
-                ?>
-                
-                <p>Students Approved Articles</p>
-              </div>
-              <div class="icon">
-              <i class="nav-icon fas fa-copy"></i>
-              </div>
-              <a href="articles.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-        </div>
-        <!-- /.row -->
-        <?php }?>
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-</div>
-
-<?php
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    
+    <?php
 include("includes/script.php");
+?>
+<script>
+<?php
+     include("config/connection.php");
+     $dept = $_SESSION['auth_user']['user_dept'];
+     $id = $_SESSION['auth_user']['user_id'];
+
+     $query = "select count(*) from articles WHERE status = 'pending' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_pending = $row['count(*)'];
+
+     $query = "select count(*) from articles WHERE status = 'Approved' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_approved = $row['count(*)'];
+
+     $query = "select count(*) from articles WHERE status = 'Modify' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_modify = $row['count(*)'];
+
+     $query = "select count(*) from articles WHERE status = 'Rejected' AND stud_id = '$id'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_myart_rejected = $row['count(*)'];
+
+     $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE articles.status = 'pending' AND department.d_name = '$dept'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_pending = $row['count(*)'];
+
+     $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE articles.status = 'Approved' AND department.d_name = '$dept'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_approved = $row['count(*)'];
+
+     $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE articles.status = 'Modify' AND department.d_name = '$dept'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_modify = $row['count(*)'];
+
+     $query = "select count(*) from articles INNER JOIN users ON articles.stud_id = users.id INNER JOIN department ON users.deptno = department.id WHERE articles.status = 'Rejected' AND department.d_name = '$dept'";
+     $result = mysqli_query($connect, $query);
+     $row = mysqli_fetch_assoc($result);
+     $count_rejected = $row['count(*)'];
+     mysqli_close($connect);
+  ?>
+  
+  $(function () {
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var pieChartMyArtStatusWiseCanvas = $('#pieChartMyArtStatusWise').get(0).getContext('2d')
+    var pieChartStatusWiseCanvas = $('#pieChartStatusWise').get(0).getContext('2d')
+
+    var pieDataStatusWise        = {
+      labels: [
+          'Pending',
+          'Approved',
+          'Under Modification',
+          'Rejected',
+      ],
+      datasets: [
+        {
+          data: [<?php echo $count_pending?>, <?php echo $count_approved?>, <?php echo $count_modify?>, <?php echo $count_rejected?>],
+          backgroundColor : ['#7c8184', '#5cb85c', '#f0ad4e', '#d9534f'],
+        }
+      ]
+    }
+
+    var pieDataMyArtStatusWise        = {
+      labels: [
+          'Pending',
+          'Approved',
+          'Under Modification',
+          'Rejected',
+      ],
+      datasets: [
+        {
+          data: [<?php echo $count_myart_pending?>, <?php echo $count_myart_approved?>, <?php echo $count_myart_modify?>, <?php echo $count_myart_rejected?>],
+          backgroundColor : ['#7c8184', '#5cb85c', '#f0ad4e', '#d9534f'],
+        }
+      ]
+    }
+
+    var pieOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(pieChartMyArtStatusWiseCanvas, {
+      type: 'pie',
+      data: pieDataMyArtStatusWise ,
+      options: pieOptions
+    })
+
+    new Chart(pieChartStatusWiseCanvas, {
+      type: 'pie',
+      data: pieDataStatusWise,
+      options: pieOptions
+    })
+
+  })
+</script>
+<?php
 include("includes/footer.php");
+}
 ?>

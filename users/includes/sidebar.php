@@ -45,16 +45,6 @@
             </ul>
            <?php } ?>
           </li>
-          <?php if($_SESSION['auth_user']['user_role'] == "COORDINATOR"){?>
-          <li class="nav-item">
-            <a href="magazine.php" class="nav-link <?= $page == 'magazine.php' || $page == 'view_magazine.php'? 'active':'' ?>">
-            <i class="nav-icon fas fa-book"></i>
-              <p>
-                Magazine
-              </p>
-            </a>
-          </li>
-          <?php } ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

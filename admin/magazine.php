@@ -7,7 +7,83 @@ include("includes/sidebar.php");
 
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
+    <!-- Modal -->
+    <div class="modal fade" id="uploadMagazineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Upload Magazine</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action ="#" method ="post" enctype = "multipart/form-data">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for ="m_name">Magazine Name</label>
+                <input type="text" name="m_name" value="" class="form-control" placeholder="Enter Magazine Name" required>
+              </div>
+              <div class="form-group">
+                <label for ="desp">Description</label>
+                <textarea name="desp" row="5" value="" class="form-control" placeholder="Write Description..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label for ="cover_page">Upload Cover Page</label>
+                <input name = "cover_page" type="file" value="" class="form-control" accept="image/png, image/git, image/jpeg" required>
+              </div>
+              <div class="form-group">
+                <label for ="file">Upload File</label>
+                <input name = "file" type="file" value="" class="form-control" accept=".pdf" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="upload_magazine">ADD</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
 
+    <?php 
+    if(isset($_POST['upload_magazine']))
+    {
+        $magazine_title = ucwords(trim($_POST['m_name']));
+        $desp = trim($_POST['desp']);
+        $doc = preg_replace("/\s+/","_", $_FILES['file']['name']);
+        $doc_type = $_FILES['file']['type'];
+        $doc_size = $_FILES['file']['size'];
+        $doc_tem_loc = $_FILES['file']['tmp_name'];
+        $doc_ext = pathinfo($doc, PATHINFO_EXTENSION);
+        $doc_name = pathinfo($doc, PATHINFO_FILENAME);
+        $doc_unique_name = $doc_name."_".date("mjYHis").".".$doc_ext;
+        $doc_store = "../Documents/".$doc_unique_name;
+
+        $img = preg_replace("/\s+/","_", $_FILES['cover_page']['name']);
+        $img_type = $_FILES['cover_page']['type'];
+        $img_size = $_FILES['cover_page']['size'];
+        $img_tem_loc = $_FILES['cover_page']['tmp_name'];
+        $img_ext = pathinfo($img, PATHINFO_EXTENSION);
+        $img_name = pathinfo($img, PATHINFO_FILENAME);
+        $img_unique_name = $img_name."_".date("mjYHis").".".$img_ext;
+        $img_store = "../Documents/".$img_unique_name;
+
+        include("config/connection.php");
+            
+        move_uploaded_file($doc_tem_loc, $doc_store);
+        move_uploaded_file($img_tem_loc, $img_store);
+
+        $sql = "insert into magazines(`name`, `description`, `filename`, `coverpage`, `uploadyear`) values('$magazine_title', '$desp', '$doc_unique_name', '$img_unique_name', now())";
+
+        if(mysqli_query($connect, $sql))
+        {
+            $_SESSION['status'] = "Magazine uploaded successfully...";
+        }
+        mysqli_close($connect);
+    }
+    ?>
+
+    
   <!-- Modal delete date -->
   <div class="modal fade" id="DeleteDataConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -49,6 +125,7 @@ include("includes/sidebar.php");
         mysqli_close($connect);
     }
     ?>
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -59,7 +136,7 @@ include("includes/sidebar.php");
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Magazine</li>
+              <li class="breadcrumb-item active">Articles</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -75,6 +152,7 @@ include("includes/sidebar.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Uploaded Magazines</h3>
+                <a href="#" data-toggle="modal" data-target="#uploadMagazineModal" class = "btn btn-primary float-right">Upload Magazine</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

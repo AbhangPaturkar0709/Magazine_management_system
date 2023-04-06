@@ -65,6 +65,7 @@
               <?php }?>
             </ul>
           </li>
+          <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){ ?>
           <li class="nav-item">
             <a href="magazine.php" class="nav-link <?= $page == 'magazine.php' || $page == 'view_magazine.php' ? 'active':'' ?>">
             <i class="nav-icon fas fa-book"></i>
@@ -73,7 +74,6 @@
               </p>
             </a>
           </li>
-          <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){ ?>
             <li class="nav-item">
               <a href="department.php" class="nav-link <?= $page == 'department.php' ? 'active':'' ?>">
                 &nbsp;&nbsp;<i class="fa fa-building"></i>
