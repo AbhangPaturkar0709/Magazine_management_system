@@ -65,10 +65,7 @@ CREATE TABLE IF NOT EXISTS `magazines` (
   `filename` varchar(255) DEFAULT NULL,
   `coverpage` varchar(255) DEFAULT NULL,
   `uploadyear` year(4) DEFAULT NULL,
-  `uploadby` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKUPLOADBY` (`uploadby`),
-  CONSTRAINT `FKUPLOADBY` FOREIGN KEY (`uploadby`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table magazinedb.magazines: ~0 rows (approximately)
