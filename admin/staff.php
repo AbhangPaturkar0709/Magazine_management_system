@@ -210,7 +210,7 @@ include("includes/sidebar.php");
           <form action="" method= "POST">
           <div class="modal-body">
             <input type="hidden" name="id" id="stud_id">
-            Are your sure to Delete Student? 
+            Are your sure to Delete Staff? 
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-danger" name="RemoveRole">YES</button>
@@ -291,8 +291,6 @@ include("includes/sidebar.php");
                           <span class="sr-only">Toggle Dropdown</span></button>
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item view_data" href="userprofile.php?id=<?php echo $row['id']; ?>&page=staffprof" data-id ="<?php echo $row['id'] ?>&page=staffprof"><span class="fa fa-eye text-dark"></span> View</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" data-id ="#"><span class="fa fa-edit text-primary"></span> Edit</a>
                               <div class="dropdown-divider"></div>
                               <button type="button" value="<?php echo $row['id'] ?>" class="dropdown-item delete_data"><span class="fa fa-trash text-danger"></span> Delete</button>
                             </div>

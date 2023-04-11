@@ -124,7 +124,6 @@ include("includes/sidebar.php");
                   }
                   else
                   {
-                    $_SESSION['status'] = $year."".$dept;
                     $query = "select usr.id, usr.firstname, usr.middlename, usr.lastname, usr.year FROM users AS usr JOIN department AS dpt ON usr.deptno = dpt.id WHERE usr.role = 'STUDENT' && dpt.d_name = '$dept' && usr.year = '$year'";
                     $result = mysqli_query($connect, $query);
                     if(mysqli_num_rows($result) > 0)
