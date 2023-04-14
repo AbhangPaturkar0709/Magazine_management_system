@@ -30,7 +30,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-        <a href="#" class="nav-link"><span class = "ml-3">
+    <a href="#" class="nav-link dropdown" data-toggle="dropdown">
           <?php  
             if(isset($_SESSION['users_auth']))
             {
@@ -43,7 +43,11 @@
             {
               echo "Not Logged In";
             }
-          ?></span></a>
+          ?></a>
+          <ul class="dropdown-menu dropdown-menu-right mr-5">
+            <li>
+            <li><a href="#" data-toggle="modal" data-target="#ChangePassModal" class="dropdown-item"><span class="fa fa-lock"></span> Change Password</a></li>
+          </ul>
       </li>
       <li class="nav-item">
         <form action="logoutcode.php" method="POST">

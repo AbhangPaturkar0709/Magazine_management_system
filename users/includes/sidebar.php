@@ -22,7 +22,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="myarticles.php" class="nav-link <?= $page == 'myarticles.php' || $page == 'articles.php'? 'active':'' ?>">
+            <a href="myarticles.php" class="nav-link <?= $page == 'myarticles.php' || $page == 'articles.php' || $page == 'view_article.php'? 'active':'' ?>">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Articles

@@ -42,7 +42,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="student.php" class="nav-link <?= $page == 'student.php' ? 'active':'' ?>">
+                <a href="student.php" class="nav-link <?= $page == 'student.php'  ? 'active':'' ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student</p>
                 </a>
@@ -57,7 +57,7 @@
               <?php }
               if($_SESSION['auth_admin']['admin_role'] == "STAFF"){ ?>
               <li class="nav-item">
-                <a href="coordinator.php" class="nav-link <?= $page == 'coordinator.php' ? 'active':'' ?>">
+                <a href="coordinator.php" class="nav-link <?= $page == 'coordinator.php' || $page == 'Register_coordinator.php' ? 'active':'' ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Co-ordinator</p>
                 </a>

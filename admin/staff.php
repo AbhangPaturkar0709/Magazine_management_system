@@ -52,36 +52,12 @@ include("includes/sidebar.php");
                         <input type="tel" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number" required>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="row"> 
                     <div class="col">
                           <div class="form-group">
                             <label for ="id">STAFF-ID</label>
                             <input type="text" name="id" class="form-control" autocomplete="false" placeholder ="Enter ID Code E.g.(CM00X, ME0XX, etc.)" required>
                           </div>
                         </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for ="pass">Password</label>
-                        <input type="password" name="pass" class="form-control" id="pass" value="" placeholder ="Enter Password" required>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for ="cpass">Confirm Password</label>
-                        <input type="password" name="cpass" class="form-control" id="cpass" value="" placeholder ="Re-enter Password" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 ml-auto"><span class=
-                      "text-danger"><small>* Password should be at least 8 character in length and should include <br>at least one uppercase/lowercase letter, one number, and one special character.</small></span>
-                    </div>
-
-                    <div class="col-md-2"><input type="checkbox" onclick="Toogle()"><span class=
-                      "text"><small> Show Password</small></span>
-                    </div>
                   </div>
               </div>
             <div class="modal-footer">
@@ -92,6 +68,45 @@ include("includes/sidebar.php");
         </div>
       </div>
     </div>
+
+      <!-- Modal Import Excel -->
+  <div class="modal fade" id="AddStaffsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Import Excel-sheet</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action ="code.php" method ="POST" enctype = "multipart/form-data">
+            <div class="modal-body">
+            <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for ="firstname">Excel-Sheet Format</label><br>
+                      <a class="btn" href="../Documents/EXCELSHEETFORMAT.xlsx"  download="StaffExcelSheetFormat"><span class="fa fa-download text-dark"></span> DOWNLOAD FORMAT</a>
+                    </div>
+                  </div>
+                  <div class="col">
+                  <div class="form-group">
+                      <label for ="middlename">Upload Excel-Sheet</label>
+                      <input type="file" name="importfile" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="import_staff">IMPORT</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
     <script>
       function Toogle() {
         var temp = document.getElementById("pass");
@@ -154,45 +169,27 @@ include("includes/sidebar.php");
           }
           mysqli_close($connect);
         }
-        if($_POST['pass'] === $_POST['cpass'])
-        {
-          $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
-          $lowercase = preg_match('@[a-z]@', $_POST['pass']);
-          $number = preg_match('@[0-9]@', $_POST['pass']);
-          $specialchar = preg_match('@[^\w]@', $_POST['pass']);
-          $pass = $_POST['pass'];
-
-          if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
-          {
-            $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
-          }
           
-          include("config/connection.php");
-          $dept_code = substr($staffid, 0, 2);
-          $query = "select id from department where code = '$dept_code'";
-          $result = mysqli_query($connect, $query);
-          if(mysqli_num_rows($result)>0)
-          {
-            $row = mysqli_fetch_assoc($result);
-            $dept = $row['id'];
+        include("config/connection.php");
+        $dept_code = substr($staffid, 0, 2);
+        $query = "select id from department where code = '$dept_code'";
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result)>0)
+        {
+          $row = mysqli_fetch_assoc($result);
+          $dept = $row['id'];
 
-            $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$pass', $mob)";
-            if(mysqli_query($connect, $query))
-            {
-                $_SESSION['status'] = "Staff Added successfully...";
-            }
-          }
-          else
+          $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$idcode', $mob)";
+          if(mysqli_query($connect, $query))
           {
-            $_SESSION['status'] = "Invalid STAFF-ID...";
+              $_SESSION['status'] = "Staff Added successfully...";
           }
-          mysqli_close($connect);
         }
         else
         {
-          $_SESSION['status'] = "Password and confirm password must be same...";
-        
+          $_SESSION['status'] = "Invalid STAFF-ID...";
         }
+        mysqli_close($connect);
       }
     }
     ?>
@@ -221,7 +218,37 @@ include("includes/sidebar.php");
       </div>
     </div>
 
+    <!-- Modal delete data -->
+  <div class="modal fade" id="DeleteStaffsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <input type="hidden" name="id" id="stud_id">
+            Are your sure to Remove All Staff? 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="RemoveStaff">YES</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
     <?php
+    if(isset($_POST['RemoveStaff']))
+    {
+        include("config/connection.php");
+        $query = "delete from users where role = 'STAFF'";
+        mysqli_query($connect, $query);
+        mysqli_close($connect);
+    }
     if(isset($_POST['RemoveRole']))
     {
         $id = $_POST['id'];
@@ -257,7 +284,15 @@ include("includes/sidebar.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Registered Staff</h3>
-                <a href="#" data-toggle="modal" data-target="#AddStaffModal" class = "btn btn-primary float-right">Add Staff</a>
+                <button type="button" class="btn btn-primary float-right btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp
+                  <span class="sr-only">Toggle Dropdown</span></button>
+                    <div class="dropdown-menu" role="menu">
+                      <a href="#" data-toggle="modal" data-target="#AddStaffModal" class="dropdown-item"><span class="fa fa-user-plus"></span> Add Staff</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="#" data-toggle="modal" data-target="#AddStaffsModal" class="dropdown-item"><span class="fa fa-upload"></span> Import Excel</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="#" data-toggle="modal" data-target="#DeleteStaffsModal" class="dropdown-item"><span class="fa fa-trash text-danger"></span> Clear Data</a>
+                      </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

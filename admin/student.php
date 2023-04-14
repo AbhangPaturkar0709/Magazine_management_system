@@ -52,42 +52,55 @@ include("includes/sidebar.php");
                         <input type="text" name="mob" class="form-control" value="" placeholder ="Enter Mobile Number" required>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="row">
                     <div class="col">
                         <div class="form-group">
                           <label for ="idcode">ID Code</label>
                           <input type="text" name="idcode" class="form-control" value="" placeholder ="Enter ID Code E.g.(20CM00X, 19ME0XX, etc.)" required>
                         </div>
                       </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for ="pass">Password</label>
-                        <input type="password" name="pass" class="form-control" id = "pass" value="" placeholder ="Enter Password" required>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for ="cpass">Confirm Password</label>
-                        <input type="password" name="cpass" class="form-control" id = "cpass" value="" placeholder ="Re-enter Password" required>
-                      </div>
-                    </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-6 ml-auto"><span class=
-                      "text-danger"><small>* Password should be at least 8 character in length and should include <br>at least one uppercase/lowercase letter, one number, and one special character.</small></span>
-                    </div>
-
-                    <div class="col-md-2"><input type="checkbox" onclick="Toogle()"><span class=
-                      "text"><small> Show Password</small></span>
-                    </div>
-                  </div>
               </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary" name="save_student">ADD</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Import Excel -->
+  <div class="modal fade" id="AddStudentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Import Excel-sheet</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action ="code.php" method ="POST" enctype = "multipart/form-data">
+            <div class="modal-body">
+            <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for ="firstname">Excel-Sheet Format</label><br>
+                      <a class="btn" href="../Documents/EXCELSHEETFORMAT.xlsx"  download="StudentExcelSheetFormat"><span class="fa fa-download text-dark"></span> DOWNLOAD FORMAT</a>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for ="middlename">Upload Excel-Sheet</label>
+                      <input type="file" name="importfile" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="import_students">IMPORT</button>
             </div>
           </form>
         </div>
@@ -157,89 +170,71 @@ include("includes/sidebar.php");
           mysqli_close($connect);
         }
         
-        if($_POST['pass'] === $_POST['cpass'])
+        include("config/connection.php");
+        $dept_code = substr($idcode, 2, 2);
+        $YearFromId = substr($idcode, 0, 2);
+        $CurrentYear = date("y");
+        $query = "select id from department where code = '$dept_code'";
+        $result = mysqli_query($connect, $query);
+        if((mysqli_num_rows($result)>0) && (($YearFromId <= $CurrentYear) && ($YearFromId >= $CurrentYear-3)))
         {
-          $uppercase = preg_match('@[A-Z]@', $_POST['pass']);
-          $lowercase = preg_match('@[a-z]@', $_POST['pass']);
-          $number = preg_match('@[0-9]@', $_POST['pass']);
-          $specialchar = preg_match('@[^\w]@', $_POST['pass']);
-          $pass = $_POST['pass'];
-
-          if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($_POST['pass']) < 8)
+          $row = mysqli_fetch_assoc($result);
+          $dept = $row['id'];
+          $x = $CurrentYear - $YearFromId;
+          $year = "";
+          if($x == 0 || $x == 1)
           {
-            $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
+            $year = '1st';
           }
-          
-          include("config/connection.php");
-          $dept_code = substr($idcode, 2, 2);
-          $YearFromId = substr($idcode, 0, 2);
-          $CurrentYear = date("y");
-          $query = "select id from department where code = '$dept_code'";
-          $result = mysqli_query($connect, $query);
-          if((mysqli_num_rows($result)>0) && (($YearFromId <= $CurrentYear) && ($YearFromId >= $CurrentYear-3)))
+          elseif($x == 2)
           {
-            $row = mysqli_fetch_assoc($result);
-            $dept = $row['id'];
-            $x = $CurrentYear - $YearFromId;
-            $year = "";
-            if($x == 0 || $x == 1)
-            {
-              $year = '1st';
-            }
-            elseif($x == 2)
-            {
-              $year = '2nd';
-            }
-            elseif($x == 3)
-            {
-              $year = '3rd';
-            }
+            $year = '2nd';
+          }
+          elseif($x == 3)
+          {
+            $year = '3rd';
+          }
 
-            if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
+          if($_SESSION['auth_admin']['admin_role'] == "ADMIN")
+          {
+            $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$idcode', $mob)";
+            if(mysqli_query($connect, $query))
             {
-              $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
+                $_SESSION['status'] = "Student Added successfully...";
+            }
+          }
+          elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
+          {
+            $dept_name = $_SESSION['auth_admin']['admin_dept'];
+            $query="select id, code from department where d_name = '$dept_name'";
+            $row = mysqli_fetch_assoc($result = mysqli_query($connect, $query));
+            $dpt_code = $row['code'];
+            $d_id = $row['id'];
+            if($dept_code !== $dpt_code)
+            {
+              $_SESSION['status'] = "Invalid ID-CODE...";
+            }
+            else
+            {
+              $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$idcode', $mob)";
               if(mysqli_query($connect, $query))
               {
                   $_SESSION['status'] = "Student Added successfully...";
               }
             }
-            elseif($_SESSION['auth_admin']['admin_role'] == "STAFF")
-            {
-              $dept_name = $_SESSION['auth_admin']['admin_dept'];
-              $query="select id, code from department where d_name = '$dept_name'";
-              $row = mysqli_fetch_assoc($result = mysqli_query($connect, $query));
-              $dpt_code = $row['code'];
-              $d_id = $row['id'];
-              if($dept_code !== $dpt_code)
-              {
-                $_SESSION['status'] = "Invalid ID-CODE...";
-              }
-              else
-              {
-                $query = "insert into users values('$idcode', '$firstname', '$middlename', '$lastname', $dept, '$year', 'STUDENT', '$email', '$pass', $mob)";
-                if(mysqli_query($connect, $query))
-                {
-                    $_SESSION['status'] = "Student Added successfully...";
-                }
-              }
-            }
-            mysqli_close($connect);
           }
-          else
-          {
-            $_SESSION['status'] = "Invalid ID-CODE...";
-          }
+          mysqli_close($connect);
         }
         else
         {
-          $_SESSION['status'] = "Password and confirm password must be same...";
+          $_SESSION['status'] = "Invalid ID-CODE...";
         }
+        
       }
     }
     ?>
-
-    
-     <!-- Modal delete date -->
+  
+  <!-- Modal delete date -->
   <div class="modal fade" id="DeleteDataConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -263,7 +258,38 @@ include("includes/sidebar.php");
       </div>
     </div>
 
+    <!-- Modal delete date -->
+  <div class="modal fade" id="DeleteStudentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <input type="hidden" name="id" id="stud_id">
+            Are your sure to Remove All Student? 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="RemoveStudents">YES</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
     <?php
+    if(isset($_POST['RemoveStudents']))
+    {
+        include("config/connection.php");
+        $query = "delete from users where role in ('STUDENT', 'COORDINATOR')";
+        mysqli_query($connect, $query);
+        mysqli_close($connect);
+    }
     if(isset($_POST['RemoveRole']))
     {
         $id = $_POST['id'];
@@ -299,8 +325,16 @@ include("includes/sidebar.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Registered Student</h3>
-                <a href="#" data-toggle="modal" data-target="#AddStudentModal" class = "btn btn-primary float-right">Add Student</a>
-              </div>
+                <button type="button" class="btn btn-primary float-right btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp
+                  <span class="sr-only">Toggle Dropdown</span></button>
+                    <div class="dropdown-menu" role="menu">
+                      <a href="#" data-toggle="modal" data-target="#AddStudentModal" class="dropdown-item"><span class="fa fa-user-plus"></span> Add Student</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="#" data-toggle="modal" data-target="#AddStudentsModal" class="dropdown-item"><span class="fa fa-upload"></span> Import Excel</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="#" data-toggle="modal" data-target="#DeleteStudentsModal" class="dropdown-item"><span class="fa fa-trash text-danger"></span> Clear Data</a>
+                      </div>
+                </div>
               <!-- /.card-header -->
               <div class="card-body">
               <?php if($_SESSION['auth_admin']['admin_role'] == "ADMIN"){?>

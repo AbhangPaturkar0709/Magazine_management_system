@@ -23,11 +23,9 @@
         <?php
         }?>
     </ul>
-
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-        <a href="#" class="nav-link"><span class = "ml-3">
+        <a href="#" class="nav-link dropdown" data-toggle="dropdown">
           <?php  
             if(isset($_SESSION['admin_auth']))
             {
@@ -47,7 +45,18 @@
             {
               echo "Not Logged In";
             }
-          ?></span></a>
+          ?>
+          </a>
+          <?php 
+          if($_SESSION['auth_admin']['admin_role'] == "STAFF")
+          {?>
+          <ul class="dropdown-menu dropdown-menu-right mr-5">
+            <li>
+            <a class="dropdown-item" href="userprofile.php?id=<?php echo $_SESSION['auth_admin']['admin_id'] ?>&page=staffprof1" data-id ="<?php echo $row['id'] ?>&page=studprof"><span class="fa fa-eye"></span> MY PROFILE</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li><a href="#" data-toggle="modal" data-target="#ChangePassModal" class="dropdown-item"><span class="fa fa-lock"></span> Change Password</a></li>
+          </ul><?php }?>
       </li>
       <li class="nav-item">
         <form action="logoutcode.php" method="POST">

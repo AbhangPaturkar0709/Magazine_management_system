@@ -7,6 +7,104 @@ include("includes/sidebar.php");
 
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
+
+ <!-- Modal Change pass -->
+<div class="modal fade" id="ChangePassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationLabel">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method= "POST">
+          <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for ="pass">New Password</label>
+                    <input type="password" name="pass" class="form-control" id = "pass" value="" placeholder ="Enter Password" required>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for ="cpass">Confirm New Password</label>
+                    <input type="password" name="cpass" class="form-control" id = "cpass" value="" placeholder ="Re-enter Password" required>
+                  </div>
+                </div>
+              </div> 
+              <div class="row">
+                    <div class="col"><span class=
+                      "text-danger"><small>* Password should be at least 8 character in length and should include <br>at least one uppercase/lowercase letter, one number, and one special character.</small></span>
+                    </div>
+
+                    <div class="col-md-2"><input type="checkbox" onclick="Toogle()"><span class=
+                      "text"><small> Show Password</small></span>
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success" name="ChangePass">Change</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      function Toogle() {
+        var temp = document.getElementById("pass");
+        var ctemp = document.getElementById("cpass");
+        if(temp.type === "password"){
+          temp.type = "text";
+          ctemp.type = "text";
+        }
+        else{
+          temp.type = "password";
+          ctemp.type = "password";
+        }
+
+      }
+    </script>
+
+<?php
+    if(isset($_POST['ChangePass']))
+    {
+      $id = strtoupper($_SESSION['auth_user']['user_id']);
+      $pass = $_POST['pass'];
+      $cpass = $_POST['cpass'];
+
+      if($pass !== $cpass)
+      {
+        $_SESSION['status'] = "Password and Confirm Password must be same...";
+      }
+      elseif($pass === $cpass)
+      {
+        $uppercase = preg_match('@[A-Z]@', $pass);
+        $lowercase = preg_match('@[a-z]@', $pass);
+        $number = preg_match('@[0-9]@', $pass);
+        $specialchar = preg_match('@[^\w]@', $pass);
+
+        if(!$uppercase || !$lowercase || !$number || !$specialchar || strlen($pass) < 8)
+        {
+          $_SESSION['status'] = "Password should be at least 8 character in length and should include at least one uppercase/lowercase letter, one number, and one special character. ";
+        }
+        else
+        {
+          include("config/connection.php");
+          
+          $query = "update users set password = '$pass' where id = '$id'";
+          if(mysqli_query($connect, $query))
+          {
+              $_SESSION['status'] = "Password Changed successfully...";
+          }
+        }
+
+      }
+    }
+    ?>
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">

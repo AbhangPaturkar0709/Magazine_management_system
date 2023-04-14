@@ -22,6 +22,7 @@
                 $admin_dept = $row['d_name'];
                 $admin_role = $row['role'];
                 $admin_email = $row['email'];
+                $admin_pass = $row['password'];
                 $admin_mob = $row['mob'];
             }
             mysqli_close($connect);
@@ -34,12 +35,12 @@
                 'admin_dept' => $admin_dept,
                 'admin_role' => $admin_role,
                 'admin_email' => $admin_email,
+                'admin_pass' => $admin_pass,
                 'admin_mob' => $admin_mob
             ];
 
             $_SESSION['status'] = "Logged In Successfully";
             header("Location: index.php");
-
 
         }
         else
@@ -58,6 +59,7 @@
                     $admin_lastname = $row['lastname'];
                     $admin_role = $row['role'];
                     $admin_email = $row['email'];
+                    $admin_pass = $row['password'];
                     $admin_mob = $row['mob'];
                 }
                 mysqli_close($connect);
@@ -69,6 +71,7 @@
                     'admin_lastname' => $admin_lastname,
                     'admin_role' => $admin_role,
                     'admin_email' => $admin_email,
+                    'admin_pass' => $admin_pass,
                     'admin_mob' => $admin_mob
                 ];
            

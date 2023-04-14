@@ -26,7 +26,6 @@ mysqli_close($connect);
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Users</li>
-                        <li class="breadcrumb-item active">Students</li>
                         <li class="breadcrumb-item active">User Profile</li>
                     </ol>
                 </div><!-- /.col -->
@@ -111,8 +110,9 @@ mysqli_close($connect);
                                 <a href="./staff.php" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
                                             <?php }elseif($_GET['page'] == "studprof"){?>
                                                 <a href="./student.php" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
+                                            <?php }elseif($_GET['page'] == "staffprof1"){?>
+                                            <a href="./index.php" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
                                             <?php }?>
-                              
                              </div>
                           </div>
                         </div>
