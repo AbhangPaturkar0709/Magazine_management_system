@@ -7,7 +7,7 @@
         $password = $_POST['password'];
 
         include("config/connection.php");
-        $query = "select users.id, users.firstname, users.middlename, users.lastname, department.d_name, users.role, users.email, users.mob FROM users INNER JOIN department ON users.deptno=department.id WHERE email = '$email' AND PASSWORD='$password'";
+        $query = "select users.id, users.firstname, users.middlename, users.lastname, users.password, department.d_name, users.role, users.email, users.mob FROM users INNER JOIN department ON users.deptno=department.id WHERE email = '$email' AND PASSWORD='$password'";
         
         $result = mysqli_query($connect, $query);
 
@@ -26,21 +26,29 @@
                 $admin_mob = $row['mob'];
             }
             mysqli_close($connect);
-            $_SESSION['admin_auth'] = true;
-            $_SESSION['auth_admin'] = [
-                'admin_id' => $admin_id,
-                'admin_firstname' => $admin_firstname,
-                'admin_middlename' => $admin_middlename,
-                'admin_lastname' => $admin_lastname,
-                'admin_dept' => $admin_dept,
-                'admin_role' => $admin_role,
-                'admin_email' => $admin_email,
-                'admin_pass' => $admin_pass,
-                'admin_mob' => $admin_mob
-            ];
+            if($admin_role == 'STAFF')
+            {
+                $_SESSION['admin_auth'] = true;
+                $_SESSION['auth_admin'] = [
+                    'admin_id' => $admin_id,
+                    'admin_firstname' => $admin_firstname,
+                    'admin_middlename' => $admin_middlename,
+                    'admin_lastname' => $admin_lastname,
+                    'admin_dept' => $admin_dept,
+                    'admin_role' => $admin_role,
+                    'admin_email' => $admin_email,
+                    'admin_pass' => $admin_pass,
+                    'admin_mob' => $admin_mob
+                ];
 
-            $_SESSION['status'] = "Logged In Successfully";
-            header("Location: index.php");
+                $_SESSION['status'] = "Logged In Successfully";
+                header("Location: index.php");
+            }
+            else
+            {
+                $_SESSION['status'] = "Invalid Email or Password.";
+                header("Location: login.php");   
+            }
 
         }
         else
@@ -63,20 +71,23 @@
                     $admin_mob = $row['mob'];
                 }
                 mysqli_close($connect);
-                $_SESSION['admin_auth'] = true;
-                $_SESSION['auth_admin'] = [
-                    'admin_id' => $admin_id,
-                    'admin_firstname' => $admin_firstname,
-                    'admin_middlename' => $admin_middlename,
-                    'admin_lastname' => $admin_lastname,
-                    'admin_role' => $admin_role,
-                    'admin_email' => $admin_email,
-                    'admin_pass' => $admin_pass,
-                    'admin_mob' => $admin_mob
-                ];
-           
-                $_SESSION['status'] = "Logged In Successfully";
-                header("Location: index.php");
+                if($admin_role == 'ADMIN')
+                {
+                    $_SESSION['admin_auth'] = true;
+                    $_SESSION['auth_admin'] = [
+                        'admin_id' => $admin_id,
+                        'admin_firstname' => $admin_firstname,
+                        'admin_middlename' => $admin_middlename,
+                        'admin_lastname' => $admin_lastname,
+                        'admin_role' => $admin_role,
+                        'admin_email' => $admin_email,
+                        'admin_pass' => $admin_pass,
+                        'admin_mob' => $admin_mob
+                    ];
+            
+                    $_SESSION['status'] = "Logged In Successfully";
+                    header("Location: index.php");
+                }
 
             }
             else

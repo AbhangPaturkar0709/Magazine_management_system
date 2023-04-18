@@ -25,21 +25,29 @@
                 $user_mob = $row['mob'];
             }
             mysqli_close($connect);
-            $_SESSION['users_auth'] = true;
-            $_SESSION['auth_user'] = [
-                'user_id' => $user_id,
-                'user_firstname' => $user_firstname,
-                'user_middlename' => $user_middlename,
-                'user_lastname' => $user_lastname,
-                'user_dept' => $user_dept,
-                'user_role' => $user_role,
-                'user_email' => $user_email,
-                'user_mob' => $user_mob
-            ];
+            if($user_role == 'STUDENT' || $user_role == 'COORDINATOR')
+            {
+                $_SESSION['users_auth'] = true;
+                $_SESSION['auth_user'] = [
+                    'user_id' => $user_id,
+                    'user_firstname' => $user_firstname,
+                    'user_middlename' => $user_middlename,
+                    'user_lastname' => $user_lastname,
+                    'user_dept' => $user_dept,
+                    'user_role' => $user_role,
+                    'user_email' => $user_email,
+                    'user_mob' => $user_mob
+                ];
 
-            $_SESSION['status'] = "Logged In Successfully";
-            header("Location: index.php");
-
+            
+                $_SESSION['status'] = "Logged In Successfully";
+                header("Location: index.php");
+            }
+            else
+            {
+                $_SESSION['status'] = "Invalid Email or Password.";
+                header("Location: login.php");
+            }
         }
         else
         {
