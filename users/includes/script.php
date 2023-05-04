@@ -1,4 +1,7 @@
 <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js""></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -29,6 +32,18 @@
 <script src="assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
 <script src="assets/plugins/summernote/summernote-bs4.min.js"></script>
+ <!-- Summernote JS - CDN Link -->
+ <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+            placeholder: 'Edit Magazine Here',
+            height: 300
+            });
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+    <!-- //Summernote JS - CDN Link -->
 <!-- overlayScrollbars -->
 <script src="assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->

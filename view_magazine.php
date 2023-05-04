@@ -16,7 +16,6 @@ if(isset($_GET['id']))
 
 }
 include("includes/header.php");
-include("includes/topbar.php");
 ?>
 
 <style>
@@ -38,7 +37,7 @@ include("includes/topbar.php");
     }
 </style>
 
-    <div class="container">
+    <div class="container mt-5 pt-5">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -90,6 +89,7 @@ include("includes/topbar.php");
 </div>
 </div>
 
-<?php
-include("includes/footer.php");
+<?php 
+  include("includes/footer.php");
+  include("includes/script.php");
 ?>
