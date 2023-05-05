@@ -4,7 +4,7 @@
       id="ftco-navbar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">Magazine Management System</a>
+        <a class="navbar-brand  text-dark" href="index.php">Magazine Management System</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -20,13 +20,13 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a href="index.php" class="nav-link">Home</a>
+              <a href="index.php" class="nav-link text-dark">Home</a>
             </li>
             <li class="nav-item">
-              <a href="about.php" class="nav-link">About</a>
+              <a href="about.php" class="nav-link text-dark">About</a>
             </li>
             <li class="nav-item cta cta-colored">
-              <a href="users/login.php" class="nav-link">Login</a>
+              <a href="users/login.php" class="nav-link text-dark">Login</a>
             </li>
           </ul>
         </div>

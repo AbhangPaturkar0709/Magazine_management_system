@@ -9,7 +9,7 @@
     >
       <div class="overlay"></div>
       <div class="container">
-        <div
+      <div
           class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
           data-scrollax-parent="true"
         >
@@ -17,11 +17,11 @@
             class="col-xl-10 ftco-animate mb-5 pb-5"
             data-scrollax=" properties: { translateY: '70%' }"
           >
-            <h1
+            <br><h1
               class="mb-5"
               data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"
             >
-              Digital Magazine <br /><span
+              Digital Magazine <br /><br><span
                 >Government Polytechnic, Amravati</span
               >
             </h1>
@@ -159,7 +159,7 @@
     <section
       class="ftco-section ftco-counter img"
       id="section-counter"
-      style="background-image: url(images/bg_1.jpg)"
+      style="background-image: url(images/bg_10.jpg)"
       data-stellar-background-ratio="0.5"
     >
       <div class="container">
