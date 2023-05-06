@@ -30,6 +30,29 @@
       </div>
     </div>
 
+    <?php 
+        include("includes/connection.php");
+        if(isset($_GET['academic_year']))
+        {
+          $ac_year = $_GET['academic_year'];
+          $query = "select uploadyear from magazines where uploadyear = '$ac_year'";
+        }
+        else
+        {
+          $query = "select uploadyear from magazines where uploadyear = (select MAX(uploadyear) from magazines)";
+        }
+        
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result) >0) 
+        { 
+          $row = mysqli_fetch_assoc($result);
+        }
+        else
+        {
+          $error = 1;
+        }
+      ?>
+
     <section class="ftco-section ftco-counter">
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
@@ -37,7 +60,26 @@
             <span class="subheading"
               >Explore college life with our new magazine release.</span
             >
-            <h2 class="mb-4"><span>Latest</span> Magazine</h2>
+            <?php if(isset($_GET['academic_year']))
+            {
+              echo '<h2 class="mb-4"><span>Our College</span> Magazine</h2>';
+            }
+            else
+            {
+              echo '<h2 class="mb-4"><span>Latest</span> Magazine</h2>';
+            } ?>
+            <span class="subheading">
+              Academic Year 
+              <?php 
+              if(isset($row))
+              {
+                echo "".($row['uploadyear']-1)." - ".substr($row['uploadyear'], 2, 2);
+              }
+              elseif (isset($error)) {
+                echo "";
+              } 
+              ?>
+              </span>
           </div>
         </div>
         <div
@@ -46,10 +88,18 @@
           style="position: relative"
           draggable="false"
         >
-          <section draggable="false" class="container pt-5" data-v-271253ee="">
+          <section id="example3" draggable="false" class="container pt-5" data-v-271253ee="">
             <?php 
                 include("includes/connection.php");
-                $query = "Select *from magazines order by uploadyear desc";
+                if(isset($_GET['academic_year']))
+                {
+                  $ac_year = $_GET['academic_year'];
+                  $query = "select *from magazines where uploadyear = '$ac_year'";
+                }
+                else
+                {
+                  $query = "select *from magazines where uploadyear = (select MAX(uploadyear) from magazines)";
+                }
                 $result = mysqli_query($connect, $query);
                 if(mysqli_num_rows($result) >
             0) { while($row = mysqli_fetch_assoc($result)) {?>
@@ -75,7 +125,24 @@
                   >
                 </div>
                 <p class="text-muted"><?php echo $row['description']?></p>
-                <a
+                <?php 
+                if(isset($_GET['academic_year']))
+                {
+                  $ac_year = $_GET['academic_year'];
+                  ?>
+                  <a
+                  class="btn btn-primary"
+                  href="view_magazine.php?academic_year=<?php echo $ac_year ?>&id=<?php echo $row['id']; ?>"
+                  role="button"
+                  aria-controls="#picker-editor"
+                  draggable="false"
+                  style="min-width auto"
+                  >VIEW<i class="fas fa-eye p-1"></i
+                ></a>
+                <?php }
+                else
+                { ?>
+                  <a
                   class="btn btn-primary"
                   href="view_magazine.php?id=<?php echo $row['id']; ?>"
                   role="button"
@@ -84,6 +151,7 @@
                   style="min-width auto"
                   >VIEW<i class="fas fa-eye p-1"></i
                 ></a>
+                <?php } ?>
               </div>
             </div>
             <hr style="height: 2px" />
@@ -93,6 +161,7 @@
                 }
                 else
                 {
+                  echo "<h3 class='text-center'>No Magazine Found...</h3>";
                   mysqli_close($connect);
                 }?>
           </section>
@@ -102,6 +171,7 @@
 
     <section class="ftco-section services-section bg-light">
       <div class="container">
+        <h2 class="mb-4 mt-1 pt-1 text-center">Features</h2>
         <div class="row d-flex">
           <div class="col-md-3 d-flex align-self-stretch ftco-animate">
             <div class="media block-6 services d-block">

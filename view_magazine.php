@@ -79,7 +79,17 @@ include("includes/header.php");
                   </div>
                   <br>
                   <div class="col">
-                    <a href="./index.php" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
+                  <?php 
+                if(isset($_GET['academic_year']))
+                {
+                  $ac_year = $_GET['academic_year'];
+                  ?>
+                  <a href="./index.php?academic_year=<?php echo $ac_year ?>" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
+                <?php }
+                else
+                { ?>
+                  <a href="./index.php" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
+                <?php } ?>
                   </div>
                 </div>
             </div>
