@@ -14,7 +14,7 @@
           data-scrollax-parent="true"
         >
           <div
-            class="col-xl-10 ftco-animate mb-5 pb-5"
+            class="col-xl-12 ftco-animate mb-5 pb-5"
             data-scrollax=" properties: { translateY: '70%' }"
           >
             <br><h1
@@ -25,6 +25,8 @@
                 >Government Polytechnic, Amravati</span
               >
             </h1>
+            <hr class="bg-white">
+            <marquee>Transforming the way of publishing and distributing our college magazine with our cutting-edge software  | Connecting the campus community through the pages of our college magazine  </marquee>
           </div>
         </div>
       </div>
