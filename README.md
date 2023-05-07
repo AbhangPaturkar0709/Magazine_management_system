@@ -1,4 +1,4 @@
-# Magazine_management
+# Magazine_management_system
 
 Final year diploma project (Magazine management system using PHP & MySQL)
 
