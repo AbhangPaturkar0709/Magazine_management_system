@@ -24,5 +24,5 @@
     <link rel="stylesheet" href="includes/css/flaticon.css" />
     <link rel="stylesheet" href="includes/css/icomoon.css" />
     <link rel="stylesheet" href="includes/css/style.css" /> 
-    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon"/>
   </head>
