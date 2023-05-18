@@ -179,7 +179,7 @@ include("includes/sidebar.php");
           $row = mysqli_fetch_assoc($result);
           $dept = $row['id'];
 
-          $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$idcode', $mob)";
+          $query = "insert into users(id, firstname, middlename, lastname, deptno, role, email, password, mob) values('$staffid', '$firstname', '$middlename', '$lastname', $dept, 'STAFF', '$email', '$staffid', $mob)";
           if(mysqli_query($connect, $query))
           {
               $_SESSION['status'] = "Staff Added successfully...";
