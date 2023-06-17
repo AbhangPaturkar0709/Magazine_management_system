@@ -5,6 +5,52 @@ require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+
+if(isset($_POST['save_article']))
+{
+    $sid = strtoupper($_POST['sid']);
+    $article_title = trim($_POST['art_title']);
+    $article_category = $_POST['category'];
+    $doc = preg_replace("/\s+/","_", $_FILES['file']['name']);
+    $doc_type = $_FILES['file']['type'];
+    $doc_size = $_FILES['file']['size'];
+    $doc_tem_loc = $_FILES['file']['tmp_name'];
+    $doc_ext = pathinfo($doc, PATHINFO_EXTENSION);
+    $doc_name = pathinfo($doc, PATHINFO_FILENAME);
+    $doc_unique_name = $doc_name."_".date("mjYHis").".".$doc_ext;
+    $doc_store = "../Documents/".$doc_unique_name;
+
+    if($article_title == "" || $article_category == "-1" || $doc == "")
+    {
+      $_SESSION['status'] = "Invalid Input...";
+    }
+    else
+    {
+        include("config/connection.php");
+        $query = "select *from users where id = '$sid'";
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result) == 0)
+        {
+          $_SESSION['status'] = "No $sid student found...";
+        }
+        elseif(mysqli_num_rows($result) > 0)
+        {
+          move_uploaded_file($doc_tem_loc, $doc_store);
+          
+          $sql = "insert into articles(`title`, `category`, `file`, `uploaddate`, `status`, `stud_id`) values('$article_title', '$article_category', '$doc_unique_name', now(), 'pending', '$sid')";
+          
+          if(mysqli_query($connect, $sql))
+          {
+            $_SESSION['status'] = "Article uploaded successfully...";
+            header("Location: student_articles.php");
+            exit();
+          }
+        }
+        mysqli_close($connect);
+    }
+}
+
+
 if($_SESSION['auth_admin']['admin_role'] == "ADMIN" || $_SESSION['auth_admin']['admin_role'] == "STAFF")
 {
     if(isset($_POST['art_approve']))
