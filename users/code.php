@@ -4,7 +4,7 @@
         if(isset($_POST['update_article']))
         {
             $id = $_GET['id'];
-            echo $id;
+            // echo $id;
             $sid = $_POST['sid'];
             $article_title = trim($_POST['art_title']);
             $article_category = $_POST['category'];

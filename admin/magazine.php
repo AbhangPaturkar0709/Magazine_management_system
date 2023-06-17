@@ -17,7 +17,7 @@ include("includes/sidebar.php");
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action ="#" method ="post" enctype = "multipart/form-data">
+          <form action ="" method ="post" enctype = "multipart/form-data">
             <div class="modal-body">
               <div class="form-group">
                 <label for ="m_name">Magazine Name</label>
@@ -73,7 +73,7 @@ include("includes/sidebar.php");
         move_uploaded_file($doc_tem_loc, $doc_store);
         move_uploaded_file($img_tem_loc, $img_store);
 
-        $sql = "insert into magazines(`name`, `description`, `filename`, `coverpage`, `uploadyear`) values('$magazine_title', '$desp', '$doc_unique_name', '$img_unique_name', now())";
+        $sql = "insert into magazines(`name`, `description`, `filename`, `coverpage`, `uploadyear`) values('$magazine_title', '$desp', '$doc_unique_name', '$img_unique_name', YEAR(CURRENT_TIMESTAMP))";
 
         if(mysqli_query($connect, $sql))
         {
@@ -120,8 +120,8 @@ include("includes/sidebar.php");
         $coverpage = $row['coverpage'];
         $query = "delete from magazines where id = '$id'";
         mysqli_query($connect, $query);
-        unlink('../Documents/' . $file);
-        unlink('../Documents/' . $coverpage);
+        unlink('../Documents/'. $file);
+        unlink('../Documents/'. $coverpage);
         mysqli_close($connect);
     }
     ?>

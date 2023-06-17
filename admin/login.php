@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include("includes/header.php");
-if(isset($_SESSION['users_auth']))
+if(isset($_SESSION['admin_auth']))
 {
     $_SESSION['status'] = "You are already logged In.";
     header("Location: index.php");

@@ -1,6 +1,6 @@
 <?php 
-include("includes/header.php");
 include("authentication.php");
+include("includes/header.php");
 include("includes/topbar.php");
 include("includes/sidebar.php");
 ?>
@@ -107,21 +107,6 @@ include("includes/sidebar.php");
       </div>
     </div>
 
-    <script>
-      function Toogle() {
-        var temp = document.getElementById("pass");
-        var ctemp = document.getElementById("cpass");
-        if(temp.type === "password"){
-          temp.type = "text";
-          ctemp.type = "text";
-        }
-        else{
-          temp.type = "password";
-          ctemp.type = "password";
-        }
-
-      }
-    </script>
     <?php
     if(isset($_POST['save_student']))
     {
